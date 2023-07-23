@@ -65,6 +65,7 @@ class ShoppersSearch extends React.Component {
     window.location = "/";
   };
   render() {
+    console.log(this.state);
     const msg = this.state.error ? <p>{this.state.error}</p> : <div></div>;
 
     // console.log(this.state.itemsByUserId.length)
@@ -111,7 +112,6 @@ class ShoppersSearch extends React.Component {
         <section id="InventoryPage">
           <form className="searchForm" onSubmit={this.searchForm}>
             <div className="errorMessage">{msg}</div>
-
             <input
               type="text"
               id="searchTerm"
@@ -124,7 +124,6 @@ class ShoppersSearch extends React.Component {
               <ValidationError message={this.validateSearchTerm()} />
             )}
             <ValidationError message={this.validateSearchTerm()} />
-
             <div className="button-wrapper">
               <button
                 className="go-button"
