@@ -5,132 +5,74 @@ import AuthApiService from "./services/auth-api-service";
 import TokenService from "./services/token-service.js";
 import RadioGroup from "./components/RadioGroup";
 import { UserIcon } from "@heroicons/react/24/solid";
+import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { useHistory } from "react-router-dom";
+import LoginSchema from "./utils/validations/LoginSchema";
+import OtpSchema from "./utils/validations/OtpSchema";
+import { useEffect } from "react";
 
-class Login extends React.Component {
-  constructor(props) {
-    if(TokenService.hasAuthToken()){
-      window.location="/";
-    }
-    super(props);
-    this.state = {
-      mobileNo: {
-        value: "",
-        touched: false,
-      },
-      otp: {
-        value: "",
-        touched: false
-      },
-      viewOtpform: false,
-      LogInUserID: 0,
-      error: null,
-      role: null,
-    };
+
+function Login() {
+  if (TokenService.hasAuthToken()) {
+    history.push("/");
   }
+  const [mobile, setMobile] = useState(null);
+  const [role, setRole] = useState(null);
+  const [otpform, setOtpform] = useState(false);
+  const { register, handleSubmit, formState: { errors }, reset } = useForm({ onblur: true });
+  const { register: reg2, handleSubmit: handleSubmit2, formState: { errors: errors2 }, reset: reset2 } = useForm({ onblur: true });
 
-  changeMobileNo(mobileNo) {
 
-    this.setState({
-      mobileNo: { value: mobileNo, touched: true },
-    });
-  }
-  changeRole(option) {
-    this.setState({
+
+
+  const changeRole = (option) => {
+    setRole({
       role: option
     })
   }
 
-  changeOtp(otp) {
-    this.setState({
-      otp: { value: otp, touched: true }
-    })
-  }
 
 
 
-  validateMobileNo() {
-    const mobile_no = this.state.mobileNo.value.trim();
-    if (mobile_no.length === 0) {
-      return (
-        <p className="input-error" style={{ color: "red" }}>
-          Mobile No is required
-        </p>
-      );
-    } else if (mobile_no.length < 10 || !(mobile_no > 1000000000 && mobile_no < 9999999999)) {
-      return (
-        <p className="input-error" style={{ color: "red" }}>
-          Mobile No must be equal to 10 Integer numbers Only
-        </p>
-      );
-    }
-  }
-
-  validateOtp() {
-    const otp = this.state.otp.value.trim();
-    if (otp.length === 0) {
-      return (
-        <p className="input-error" style={{ color: "red" }}>
-          Mobile No is required
-        </p>
-      );
-    } else if (otp.length < 6) {
-      return (
-        <p className="input-error" style={{ color: "red" }}>
-          Mobile No must be equal to 6 characters long
-        </p>
-      );
-    }
-  }
 
 
 
-  loginUser = (event) => {
-    event.preventDefault();
-    const mobileNo = this.state.mobileNo.value;
-    if (this.state.role != 0 && this.state.role != 1) {
-      this.setState({
-        error: "Invalid Role",
-      });
-
+  loginUser = (data) => {
+    if (role != 0 && role != 1) {
+      setError("Invalid Role");
     }
     else {
 
       AuthApiService.postLogin({
-        mobileNo: mobileNo,
-        role: this.state.role
+        mobileNo: data.mobileNo,
+        role: role
       })
 
         .then((response) => {
           console.log(response);
           if (response.status == "success") {
-            this.setState({
-              viewOtpform: true,
-            });
-
-
+            setOtpform(true);
+            setMobile(data.mobileNo);
           }
           else {
-            this.setState({ error: "Some Error Occured" });
+            setError("Some Error Occured");
           }
 
 
         })
         .catch((err) => {
-          this.setState({
-            error: "Some Error Occured",
-          });
+          setError("Some Error Occured");
           console.log(err);
         });
     }
   };
 
-  verifyOtp = (event) => {
-    event.preventDefault();
-    const otp = this.state.otp.value;
+  verifyOtp = (data) => {
     AuthApiService.verifyOtp({
-      otp: otp,
-      role: this.state.role,
-      mobileNo: this.state.mobileNo.value
+      otp: data.otp,
+      role: role,
+      mobileNo: mobile
     }).then((response) => {
       console.log(response);
       if (response.status == "success") {
@@ -138,44 +80,44 @@ class Login extends React.Component {
         TokenService.saveAuthToken(response.token);
         TokenService.saveRole(response.role);
         TokenService.saveIsUpdate(response.isUpdate);
+        reset2();
+        setMobile(null);
         if (response.isUpdate == 1) {
-          window.location = '/'
+          history.push('/');
         }
         else {
-          window.location = '/profile'
+          history.push('/profile')
         }
       }
       else {
-        this.setState({ error: "Some Error Occured" });
+        setError("Some Error Occured");
       }
 
     }).catch((err) => {
       console.log(err);
-      this.setState({
-        error: "Some Error Occured"
-      });
+      setError("Some Error Occured");
     });
 
   }
 
+  useEffect(() => {
+    if (otpform) {
+      reset();
+    }
+  }, [otpform]);
 
 
-  render() {
-    const msg = this.state.error ? (
-      <p style={{ color: "white" }}>{this.state.error}</p>
-    ) : (
-      <div></div>
-    );
-    return (
+  return (
+    <>
       <div>
-        {!this.state.viewOtpform ? (<div className="Fast">
+        {!otpform ? (<div className="Fast">
           <div className="Login">
             <section id="loginPage">
               <h2 style={{ padding: "0px" }}>Login</h2>
               <div className="mx-auto w-96 shadow my-1">
                 <RadioGroup
                   onChange={(option) => {
-                    this.changeRole(option)
+                    changeRole(option)
                   }}
                   options={[
                     <div className="flex flex-1 justify-around">
@@ -190,25 +132,20 @@ class Login extends React.Component {
                 />
               </div>
 
-              <form className="loginForm" onSubmit={this.loginUser}>
-                <div className="errorMessage" style={{ color: "white" }}>
-                  {msg}
-                </div>
+              <form className="loginForm" onSubmit={handleSubmit(loginUser)}>
+
                 <label htmlFor="mobileNo">Mobile No</label>
                 <input
                   type="text"
                   id="mobileNo"
                   name="mobileNo"
                   placeholder="MobileNo"
-                  onChange={(e) => {
+                  {...register("mobileNo", LoginSchema)}
 
-                    this.changeMobileNo(e.target.value)
-                  }}
                   required
                 />
-                {this.state.mobileNo.touched && (
-                  <ValidationError message={this.validateMobileNo()} />
-                )}
+                {errors.mobileNo && <span className="text-danger">{errors.mobileNo.message}</span>}
+
 
 
 
@@ -225,24 +162,17 @@ class Login extends React.Component {
             <div className="Login">
               <section id="loginPage">
                 <h2 style={{ padding: "0px" }}>Login</h2>
-                <form className="loginForm" onSubmit={this.verifyOtp}>
-                  <div className="errorMessage" style={{ color: "white" }}>
-                    {msg}
-                  </div>
-
+                <form className="loginForm" onSubmit={handleSubmit2(verifyOtp)}>
                   <label htmlFor="otp">Otp</label>
                   <input
                     type="text"
                     id="otp"
                     name="otp"
                     placeholder="Otp"
-                    onChange={(e) => this.changeOtp(e.target.value)}
+                    {...reg2("otp", OtpSchema)}
                     required
                   />
-                  {this.state.otp.touched && (
-                    <ValidationError message={this.validateOtp()} />
-                  )}
-
+                  {errors2.otp && <span className="text-danger">{errors.otp.message}</span>}
 
                   <button className="go-button" type="submit">
                     Go
@@ -256,9 +186,10 @@ class Login extends React.Component {
 
         }
       </div>
+    </>
 
-    );
-  }
+  );
+
 }
 
 export default Login;
