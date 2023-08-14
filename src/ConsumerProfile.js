@@ -4,10 +4,12 @@ import ConsumerSchema from "./utils/validations/ConsumerSchema";
 import { useForm } from "react-hook-form";
 import { useLayoutEffect } from "react";
 import TokenService from "./services/token-service";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 
 
 const ConsumerProfile = (props) => {
+  let history=useHistory();
   let form = useForm({ onblur: true });
   const { register, handleSubmit, formState: { errors }, reset } = form;
   useLayoutEffect(() => {

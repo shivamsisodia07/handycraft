@@ -4,18 +4,21 @@ import CrafterSchema from "./utils/validations/CrafterSchema";
 import { useForm } from "react-hook-form";
 import { useLayoutEffect } from "react";
 import TokenService from "./services/token-service";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+
 
 
 
 const CrafterProfile = (props) => {
+  let history = useHistory();
   let form = useForm({ onblur: true });
   const { register, handleSubmit, formState: { errors }, reset } = form;
   useLayoutEffect(() => {
-    if (TokenService.hasAuthToken()&&TokenService.getRole()!=2) {
+    if (TokenService.hasAuthToken() && TokenService.getRole() != 2) {
       history.push("/");
     }
-    else if(!TokenService.hasAuthToken()){
-        history.push("/login");
+    else if (!TokenService.hasAuthToken()) {
+      history.push("/login");
     }
     else {
       AuthApiService.editUser(2)

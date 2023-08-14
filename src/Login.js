@@ -14,6 +14,7 @@ import { useEffect } from "react";
 
 
 function Login() {
+  let history=useHistory();
   if (TokenService.hasAuthToken()) {
     history.push("/");
   }
@@ -38,7 +39,7 @@ function Login() {
 
 
 
-  loginUser = (data) => {
+  const loginUser = (data) => {
     if (role != 0 && role != 1) {
       setError("Invalid Role");
     }
@@ -68,7 +69,7 @@ function Login() {
     }
   };
 
-  verifyOtp = (data) => {
+  const verifyOtp = (data) => {
     AuthApiService.verifyOtp({
       otp: data.otp,
       role: role,

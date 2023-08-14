@@ -22,6 +22,7 @@ import {
   Testimonials,
 } from "./components";
 import ConsumerProfile from "./ConsumerProfile";
+import CrafterProfile from "./CrafterProfile";
 
 function App() {
 
@@ -37,7 +38,7 @@ function App() {
                 </div>
               </div>
               <Route path='/contact/:userId' component={Contact} />
-              <Route exact path='/' component={Landing} />
+              <Route exact path='/' component={Login} />
               <Route path='/login' component={Login} />
               <Route path='/homepage' component={Homepage} />
               <Route path='/productpage' component={Productpage} />
