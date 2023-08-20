@@ -5,6 +5,7 @@ import Landing from "./Landing";
 import AddItems from "./AddItems";
 import Inventory from "./Inventory";
 import Login from "./Login";
+import Alert from "./Alert";
 import NavBar from "./NavBar";
 import Error from "./Error";
 import ItemDetails from "./ItemDetails";
@@ -23,38 +24,50 @@ import {
 } from "./components";
 import ConsumerProfile from "./ConsumerProfile";
 import CrafterProfile from "./CrafterProfile";
+import { useState } from "react";
 
 function App() {
+  const [alert, setalert] = useState(null);
+  const showalert = (message, type) => {
+    setalert({            // set alert is used to set state of alerts.
+      message: message,
+      type: type
+    })
+    setTimeout(() => {
+      setalert(null);
+    }, 3000)
+  }
 
   return (
     <>
       <div className='App'>
         <BrowserRouter>
-          <Switch>
-            <div className='bg-primary w-full overflow-hidden'>
-              <div className={`${styles.paddingX} ${styles.flexCenter}`}>
-                <div className={`${styles.boxWidth}`}>
-                  <Navbar />
-                </div>
-              </div>
-              <Route path='/contact/:userId' component={Contact} />
-              <Route exact path='/' component={Login} />
-              <Route path='/login' component={Login} />
-              <Route path='/homepage' component={Homepage} />
-              <Route path='/productpage' component={Productpage} />
-              <Route path='/consumer/profile' component={ConsumerProfile} />
-              <Route path='/crafter/profile' component={CrafterProfile} />
-              <Route path='/add-item' component={AddItems} />
-              <Route path='/inventory' component={Inventory} />
-              <Route path='/item-details/:itemId' component={ItemDetails} />
-              <div
-                className={`bg-primary ${styles.paddingX} ${styles.flexCenter}`}>
-                <div className={`${styles.boxWidth}`}>
-                  <Footer />
-                </div>
+
+
+          <div className='bg-primary w-full overflow-hidden'>
+            <Alert alert={alert} />
+            <div className={`${styles.paddingX} ${styles.flexCenter}`}>
+              <div className={`${styles.boxWidth}`}>
+                <Navbar />
               </div>
             </div>
-          </Switch>
+
+
+            <Switch>
+              <Route exact path='/login' component={() => <Login showalert={showalert} />} />
+              <Route exact path='/consumer/profile' component={() => <ConsumerProfile showalert={showalert} />} />
+              <Route exact path='/crafter/profile' component={() => <CrafterProfile showalert={showalert} />} />
+              <Route exact path='/add-item' component={() => <AddItems showalert={showalert} />} />
+            </Switch>
+
+            <div
+              className={`bg-primary ${styles.paddingX} ${styles.flexCenter}`}>
+              <div className={`${styles.boxWidth}`}>
+                <Footer />
+              </div>
+            </div>
+          </div>
+
         </BrowserRouter>
       </div>
     </>

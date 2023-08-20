@@ -5,7 +5,7 @@ const AuthApiService = {
   postLogin(credentials) {
 
     if (credentials.role == 0) {
-      return fetch(`${config.FARMER_API_ENDPOINT}/login`, {
+      return fetch(`${config.CRAFTER_API_ENDPOINT}/login`, {
         method: 'POST',
         headers: {
           'content-type': 'application/json',
@@ -45,7 +45,7 @@ const AuthApiService = {
   },
   verifyOtp(data) {
     if (data.role == 0) {
-      return fetch(`${config.FARMER_API_ENDPOINT}/otp-verify`, {
+      return fetch(`${config.CRAFTER_API_ENDPOINT}/otp-verify`, {
         method: 'POST',
         headers: {
           'content-type': 'application/json',
@@ -77,8 +77,8 @@ const AuthApiService = {
   },
   getProfile(role) {
 
-    if (role == "farmer") {
-      return fetch(`${config.FARMER_API_ENDPOINT}/edit`, {
+    if (role == "crafter") {
+      return fetch(`${config.CRAFTER_API_ENDPOINT}/edit`, {
         method: 'GET',
         headers: {
           'content-type': 'application/json',
@@ -110,9 +110,9 @@ const AuthApiService = {
     }
   },
 
-  EditProfile(data) {
-    if (data.role == 0) {
-      return fetch(`${config.FARMER_API_ENDPOINT}/edit`, {
+  editProfile(role,data) {
+    if (role == "crafter") {
+      return fetch(`${config.CRAFTER_API_ENDPOINT}/edit`, {
         method: 'POST',
         headers: {
           'content-type': 'application/json',
@@ -132,7 +132,7 @@ const AuthApiService = {
           console.log('error:', err)
         })
     }
-    else if (data.role == 1) {
+    else if (role == "consumer") {
       return fetch(`${config.CONSUMER_API_ENDPOINT}/login`, {
         method: 'POST',
         headers: {

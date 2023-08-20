@@ -41,7 +41,7 @@ const ConsumerSchema = {
             message: "District must be at least 3 characters"
         },
     },
-    State: {
+    state: {
         required: {
             value: true,
             message: 'State is required'

@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "./App.css";
-import ValidationError from "./validationError";
 import AuthApiService from "./services/auth-api-service";
 import TokenService from "./services/token-service.js";
 import RadioGroup from "./components/RadioGroup";
@@ -13,11 +12,15 @@ import OtpSchema from "./utils/validations/OtpSchema";
 import { useEffect } from "react";
 
 
-function Login() {
-  let history=useHistory();
-  if (TokenService.hasAuthToken()) {
-    history.push("/");
+function Login(props) {
+  var history = useHistory();
+  if (TokenService.hasAuthToken() && TokenService.getRole() == "crafter") {
+    history.push("/crafter/profile");
   }
+  else if (TokenService.hasAuthToken() && TokenService.getRole() == "consumer") {
+    history.push("/consumer/profile");
+  }
+
   const [mobile, setMobile] = useState(null);
   const [role, setRole] = useState(null);
   const [otpform, setOtpform] = useState(false);
@@ -28,9 +31,7 @@ function Login() {
 
 
   const changeRole = (option) => {
-    setRole({
-      role: option
-    })
+    setRole(option);
   }
 
 
@@ -40,8 +41,9 @@ function Login() {
 
 
   const loginUser = (data) => {
+    console.log(role);
     if (role != 0 && role != 1) {
-      setError("Invalid Role");
+      props.showalert("Please Select Role", "danger");
     }
     else {
 
@@ -57,19 +59,20 @@ function Login() {
             setMobile(data.mobileNo);
           }
           else {
-            setError("Some Error Occured");
+            props.showalert("Some Error Occured", "danger");
           }
 
 
         })
         .catch((err) => {
-          setError("Some Error Occured");
+          props.showalert("Some Error Occured", "danger");
           console.log(err);
         });
     }
   };
 
   const verifyOtp = (data) => {
+    
     AuthApiService.verifyOtp({
       otp: data.otp,
       role: role,
@@ -84,19 +87,29 @@ function Login() {
         reset2();
         setMobile(null);
         if (response.isUpdate == 1) {
-          history.push('/');
+          if (response.role == "consumer") {
+            history.push('/consumer/profile');
+          }
+          else if (response.role == "crafter") {
+            history.push('/crafter/profile');
+          }
         }
         else {
-          history.push('/profile')
+          if (response.role == "consumer") {
+            history.push('/consumer/profile');
+          }
+          else if (response.role == "crafter") {
+            history.push('/crafter/profile');
+          }
         }
       }
       else {
-        setError("Some Error Occured");
+        props.showalert("Some Error Occured", "danger");
       }
 
     }).catch((err) => {
       console.log(err);
-      setError("Some Error Occured");
+      props.showalert("Some Error Occured", "danger");
     });
 
   }
@@ -122,7 +135,7 @@ function Login() {
                   }}
                   options={[
                     <div className="flex flex-1 justify-around">
-                      <span>Farmer</span>
+                      <span>Crafter</span>
                       <UserIcon className="w-4" />
                     </div>,
                     <div className="flex  flex-1 justify-around">
@@ -141,7 +154,7 @@ function Login() {
                   id="mobileNo"
                   name="mobileNo"
                   placeholder="MobileNo"
-                  {...register("mobileNo", LoginSchema)}
+                  {...register("mobileNo", LoginSchema.mobileNo)}
 
                   required
                 />
@@ -170,10 +183,10 @@ function Login() {
                     id="otp"
                     name="otp"
                     placeholder="Otp"
-                    {...reg2("otp", OtpSchema)}
+                    {...reg2("otp", OtpSchema.otp)}
                     required
                   />
-                  {errors2.otp && <span className="text-danger">{errors.otp.message}</span>}
+                  {errors2.otp && <span className="text-danger">{errors2.otp.message}</span>}
 
                   <button className="go-button" type="submit">
                     Go

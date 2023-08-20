@@ -2,35 +2,35 @@ import config from '../config'
 
 const TokenService = {
     saveAuthToken(token) {
-        window.sessionStorage.setItem(config.TOKEN_KEY, token)
+        localStorage.setItem(config.TOKEN_KEY, token)
 
     },
     saveRole(role) {
-        window.sessionStorage.setItem("ROLE", role)
+       localStorage.setItem("ROLE", role)
     },
     getRole() {
-        return window.sessionStorage.getItem("ROLE")
+        return localStorage.getItem("ROLE")
     },
     getAuthToken() {
-        return window.sessionStorage.getItem(config.TOKEN_KEY)
+        return localStorage.getItem(config.TOKEN_KEY)
     },
     clearAuthToken() {
-        window.sessionStorage.removeItem(config.TOKEN_KEY)
-        sessionStorage.clear();
+        localStorage.removeItem(config.TOKEN_KEY)
+        localStorage.clear();
     },
     saveIsUpdate(value) {
-        window.sessionStorage.setItem("IS_UPDATE", value)
+        localStorage.setItem("IS_UPDATE", value)
     },
     getIsUpdate() {
-        return window.sessionStorage.getItem("IS_UPDATE")
+        return localStorage.getItem("IS_UPDATE")
     },
     clearIsUpdate() {
-        window.sessionStorage.removeItem("IS_UPDATE")
-        sessionStorage.clear();
+        localStorage.removeItem("IS_UPDATE")
+        localStorage.clear();
     },
     clearRole() {
-        window.sessionStorage.removeItem("ROLE")
-        sessionStorage.clear();
+        localStorage.removeItem("ROLE")
+        localStorage.clear();
     },
     hasAuthToken() {
         return !!TokenService.getAuthToken()
