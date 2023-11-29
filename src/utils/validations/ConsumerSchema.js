@@ -41,20 +41,7 @@ const ConsumerSchema = {
             message: "District must be at least 3 characters"
         },
     },
-    state: {
-        required: {
-            value: true,
-            message: 'State is required'
-        },
-        pattern: {
-            value: /^[^\s].*[^\s]$/,
-            message: "State must not contain any spaces"
-        },
-        minLength: {
-            value: 5,
-            message: "State must be at least 3 characters"
-        },
-    },
+   
     mobileNo: {
         required: {
             value: true,

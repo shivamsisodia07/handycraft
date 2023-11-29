@@ -1,30 +1,20 @@
 import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import "./App.css";
-import Landing from "./Landing";
-import AddItems from "./AddItems";
-import Inventory from "./Inventory";
-import Login from "./Login";
-import Alert from "./Alert";
-import NavBar from "./NavBar";
-import Error from "./Error";
-import ItemDetails from "./ItemDetails";
-import Contact from "./Contact";
-import Homepage from "./components/Homepage";
-import Productpage from "./components/Productpage";
-import styles from "./jsmaster";
+import "../public/assets/css/App.css";
+import AddItems from "./components/Crafter/AddItems";
+import Login from "./components/Login";
+import Alert from "./components/Alert";
+import styles from "../public/assets/js/jsmaster";
 import {
-  Billing,
-  Business,
-  Clients,
   Footer,
-  Navbar,
-  Stats,
-  Testimonials,
+  Navbar
 } from "./components";
-import ConsumerProfile from "./ConsumerProfile";
-import CrafterProfile from "./CrafterProfile";
+import ConsumerProfile from "./components/Consumer/ConsumerProfile";
+import CrafterProfile from "./components/Crafter/CrafterProfile";
+import Inventory from "./components/Crafter/Inventory";
 import { useState } from "react";
+import ItemDetails from "./components/Crafter/ItemDetails";
+import Landing from "./Landing";
 
 function App() {
   const [alert, setalert] = useState(null);
@@ -54,10 +44,14 @@ function App() {
 
 
             <Switch>
+              <Route exact path='/' component={() => <Landing showalert={showalert} />} />
               <Route exact path='/login' component={() => <Login showalert={showalert} />} />
               <Route exact path='/consumer/profile' component={() => <ConsumerProfile showalert={showalert} />} />
               <Route exact path='/crafter/profile' component={() => <CrafterProfile showalert={showalert} />} />
               <Route exact path='/add-item' component={() => <AddItems showalert={showalert} />} />
+              <Route exact path='/inventory' component={() => <Inventory showalert={showalert} />} />
+              <Route path='/item-details/' component={() => <ItemDetails showalert={showalert} />} />
+
             </Switch>
 
             <div
