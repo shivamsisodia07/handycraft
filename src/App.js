@@ -1,20 +1,18 @@
 import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import "../public/assets/css/App.css";
+import "./assets/css/App.css";
 import AddItems from "./components/Crafter/AddItems";
 import Login from "./components/Login";
 import Alert from "./components/Alert";
-import styles from "../public/assets/js/jsmaster";
-import {
-  Footer,
-  Navbar
-} from "./components";
+import styles from "./assets/js/jsmaster";
+import Footer from "./components/Footer";
+import Navbar from "./components/Navbar";
 import ConsumerProfile from "./components/Consumer/ConsumerProfile";
 import CrafterProfile from "./components/Crafter/CrafterProfile";
 import Inventory from "./components/Crafter/Inventory";
 import { useState } from "react";
 import ItemDetails from "./components/Crafter/ItemDetails";
-import Landing from "./Landing";
+import Landing from "./components/Landing";
 
 function App() {
   const [alert, setalert] = useState(null);

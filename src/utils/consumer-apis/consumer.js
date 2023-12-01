@@ -3,7 +3,7 @@ import { resolve } from "../partials/resolve";
 import TokenService from "../../services/token-service";
 
 export async function getConsumer(){
-    return await resolve(axios.get(`${process.env.CONSUMER_API_ENDPOINT}/`,{
+    return await resolve(axios.get(`${process.env.REACT_APP_CONSUMER_API_ENDPOINT}/`,{
         headers:{
             "content-type": "application/json",
             "authtoken": TokenService.getAuthToken(),
@@ -12,7 +12,7 @@ export async function getConsumer(){
 }
 
 export async function editConsumer(data){
-    return await resolve(axios.post(`${process.env.CONSUMER_API_ENDPOINT}/edit`,data,{
+    return await resolve(axios.post(`${process.env.REACT_APP_CONSUMER_API_ENDPOINT}/edit`,data,{
         headers:{
             "content-type": "application/json",
             "authtoken": TokenService.getAuthToken(),

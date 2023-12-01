@@ -10,6 +10,7 @@ const Alert = (props) => {
                     <p className="input-error" style={{color:'red'}}>{props.message}</p>
                 </div>
             </div>}
+            {props.message}
         </div>
     )
 }

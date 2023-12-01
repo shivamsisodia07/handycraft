@@ -1,9 +1,9 @@
 import React from "react";
-import { getConsumer, editConsumer } from "./utils/consumer-apis/consumer";
-import ConsumerSchema from "./utils/validations/ConsumerSchema";
+import { getConsumer, editConsumer } from "../../utils/consumer-apis/consumer";
+import ConsumerSchema from "../../utils/validations/ConsumerSchema";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
-import TokenService from "./services/token-service";
+import TokenService from "../../services/token-service";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const ConsumerProfile = (props) => {
@@ -17,22 +17,25 @@ const ConsumerProfile = (props) => {
   }
   let form = useForm({ onblur: true });
   const { register, handleSubmit, formState: { errors }, reset } = form;
-  useEffect(async () => {
-    const res = await getConsumer();
+  useEffect(() => {
+    (async()=>{
+      const res = await getConsumer();
     console.log(res);
     if (res.error) {
       props.showalert(res.error, "danger");
       console.log("Error is ", res.error);
     }
     else {
-      if (res.status === "success") {
-        form.setValue("name", res.record.name);
-        form.setValue("city", res.record.city);
-        form.setValue("district", res.record.district);
-        form.setValue("mobileNo", res.record.mobileNo);
+      if (res.data.status === "success") {
+        form.setValue("name", res.data.record.name);
+        form.setValue("city", res.data.record.city);
+        form.setValue("district", res.data.record.district);
+        form.setValue("mobileNo", res.data.record.mobileNo);
         setLoading(true);
       }
     }
+    })();
+    
 
 
   }, [])
@@ -45,7 +48,7 @@ const ConsumerProfile = (props) => {
       console.log("Error is ", res.error);
     }
     else {
-      if (res.status === "success") {
+      if (res.data.status === "success") {
         props.showalert("Profile updated successfully", "success");
         reset();
       }

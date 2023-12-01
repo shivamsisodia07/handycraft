@@ -9,7 +9,7 @@ import { addItem } from "../../utils/inventory-apis/inventory";
 
 function AddItems(props) {
   let history = useHistory();
-  if (TokenService.hasAuthToken() && TokenService.getRole() != 2) {
+  if (TokenService.getRole() != "crafter") {
     history.push("/");
     return;
   }
@@ -76,7 +76,7 @@ function AddItems(props) {
               </div>
 
               <div className="mb-3">
-                <label >Price Per Unit</label>
+                <label >Price</label>
                 <input
                   type="number"
                   step="any"
@@ -101,7 +101,7 @@ function AddItems(props) {
                 {errors.quantity && <span className="text-danger">{errors.quantity.message}</span>}
               </div>
               <div className="mb-3">
-                <label>Unit</label>
+                <label>Image</label>
                 <input
                   type="file"
                   id="imgFile"
@@ -109,7 +109,7 @@ function AddItems(props) {
                   name="imgFile"
                   placeholder="Item Main Image"
                   {...register("imgFile", InventorySchema.imgFile)}
-                  onChange={handleImagePreview}
+                  
                   required
                 />
                 {errors.imgFile && <span className="text-danger">{errors.imgFile.message}</span>}

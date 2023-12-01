@@ -1,19 +1,19 @@
 import React from "react";
-import "../public/assets/css/App.css"
+import "../assets/css/App.css"
 import VideoCarousel from "./VideoCarousel";
-import styles from "./jsmaster";
-import {
-  Clients,
-  Testimonials,
-} from "./components";
+import styles from "../assets/js/jsmaster";
+import Clients from "./clients";
+import Testimonials from "./testimonials";
 const Landing = (props) => {
-  <div className="bg-primary w-full overflow-hidden">
+  return (
+    <>
+  <div className="bg-primary w-full overflow-hidden mt-6">
     <div
-      className={`${styles1.flexCenter} flex-row flex-wrap sm:mb-20 mb-6`}
+      className={`${styles.flexCenter} flex-row flex-wrap sm:mb-20  mt-6`} style={{height:"40vh"}}
     >
       <section
         id="landingPage"
-        className={`${styles1.flexCenter} flex-row flex-wrap sm:mb-20 mb-6`}
+        className={`${styles.flexCenter} flex-row flex-wrap sm:mb-20 `}
       >
         <div id="description" className={`w-3/4 mx-auto`}>
           <h3 className="font-poppins font-semibold xs:text-[40.45px] text-[30.45px] xs:leading-[56.58px] leading-[38.58px] text-gradient uppercase ml-3">
@@ -26,7 +26,7 @@ const Landing = (props) => {
             products they are interested in and find the appropriate seller who sell those products.
           </h5>
         </div>
-        {/* <ShoppersSearch /> */}
+       
       </section>
     </div>
     <br></br>
@@ -38,5 +38,7 @@ const Landing = (props) => {
     </div>
     <VideoCarousel />
   </div>
+  </>
+  );
 }
 export default Landing;

@@ -10,25 +10,28 @@ const ItemDetails = (props) => {
 
   let form = useForm({ onblur: true });
   const { register, handleSubmit, formState: { errors }, reset } = form;
-  useEffect(async () => {
-    const itemId = window.location.href.split("/")[4];
+  useEffect(() => {
+    (async()=>{
+      const itemId = window.location.href.split("/")[4];
     const res = await getItem(itemId);
     if (res.error) {
       props.showalert(res.error, "danger");
       console.log("Error is ", res.error);
     }
     else {
-      if (res.status === "success") {
-        form.setValue("name", res.record.name);
-        form.setValue("description", res.record.description);
-        form.setValue("price", res.record.pricePerUnit);
-        form.setValue("quantity", res.record.quantity);
+      if (res.data.status === "success") {
+        form.setValue("name", res.data.record.name);
+        form.setValue("description", res.data.record.description);
+        form.setValue("price", res.data.record.pricePerUnit);
+        form.setValue("quantity", res.data.record.quantity);
       }
       else {
-        props.showalert(res.msg, "danger");
+        props.showalert(res.data.msg, "danger");
       }
     }
-  })
+    })();
+    
+  },[])
 
   const update = async (data) => {
     const itemId = window.location.href.split("/")[4];
@@ -39,13 +42,13 @@ const ItemDetails = (props) => {
       console.log("Error is ", res.error);
     }
     else {
-      if (res.status === "success") {
+      if (res.data.status === "success") {
         props.showalert("Item updated successfully", "success");
         reset();
         history.push("/inventory");
       }
       else {
-        props.showalert(res.msg, "danger");
+        props.showalert(res.data.msg, "danger");
       }
     }
 

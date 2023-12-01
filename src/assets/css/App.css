@@ -179,7 +179,7 @@ body {
 
 /* Full-width input fields */
 
-input[type="text"], input[type="password"] {
+input[type="text"], input[type="password"],input[type="number"],input[type="file"] {
   width: 90%;
   border-radius:15px;
   padding: 15px;

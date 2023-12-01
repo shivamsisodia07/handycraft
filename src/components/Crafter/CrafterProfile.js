@@ -1,9 +1,9 @@
 import React from "react";
-import { getCrafter, editCrafter } from "./utils/crafter-apis/crafter";
-import CrafterSchema from "./utils/validations/CrafterSchema";
+import { getCrafter, editCrafter } from "../../utils/crafter-apis/crafter";
+import CrafterSchema from "../../utils/validations/CrafterSchema";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
-import TokenService from "./services/token-service";
+import TokenService from "../../services/token-service";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 
@@ -32,37 +32,40 @@ const CrafterProfile = (props) => {
       console.log("Error is ", res.error);
     }
     else {
-      if (res.status === "success") {
+      if (res.data.status === "success") {
         props.showalert("Profile updated successfully", "success");
         reset();
         history.push("/");
       }
       else {
-        props.showalert(res.msg, "danger");
+        props.showalert(res.data.msg, "danger");
       }
     }
 
   };
 
 
-  useEffect(async () => {
-    const res = await getCrafter();
-    if (res.error) {
-      props.showalert(res.error, "danger");
-      console.log("Error is ", res.error);
-    }
-    else {
-      if (res.status === "success") {
-        form.setValue("name", res.record.name);
-        form.setValue("city", res.record.city);
-        form.setValue("district", res.record.district);
-        form.setValue("mobileNo", res.record.mobileNo);
-        setLoading(true);
+  useEffect(() => {
+    (async () => {
+      const res = await getCrafter();
+      if (res.error) {
+        props.showalert(res.error, "danger");
+        console.log("Error is ", res.error);
       }
       else {
-        props.showalert(res.msg, "danger");
+        if (res.data.status === "success") {
+          form.setValue("name", res.data.record.name);
+          form.setValue("city", res.data.record.city);
+          form.setValue("district", res.data.record.district);
+          form.setValue("mobileNo", res.data.record.mobileNo);
+          setLoading(true);
+        }
+        else {
+          props.showalert(res.data.msg, "danger");
+        }
       }
-    }
+    })();
+
 
   }, [])
 

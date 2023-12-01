@@ -1,43 +1,47 @@
 import { useState, useEffect } from "react";
 import TokenService from "../services/token-service";
 import { close, logo, menu } from "../assets";
-import { navLinks } from "../constants";
 import { Link } from "react-router-dom";
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSackDollar } from "@fortawesome/free-solid-svg-icons";
 import { getCrafter } from "../utils/crafter-apis/crafter";
 import { getConsumer } from "../utils/consumer-apis/consumer";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 const Navbar = () => {
-  const [active, setActive] = useState("Home");
+  let history = useHistory();
   const [toggle, setToggle] = useState(false);
   const [money, setMoney] = useState(0);
   const logOutClick = () => {
     TokenService.clearAuthToken();
     TokenService.clearRole();
     TokenService.clearIsUpdate();
-    window.location = "/login";
+    history.push("/login");
   };
-  useEffect(async () => {
+  useEffect(() => {
     if (TokenService.hasAuthToken()) {
-      if (TokenService.getRole() == "crafter") {
-        const res = await getCrafter();
-        if (res.error) {
-          console.log(res.error);
-        } else {
-          setMoney(res.money);
+      (async () => {
+        if (TokenService.getRole() === "crafter") {
+          const res = await getCrafter();
+          console.log("respones", res);
+          if (res.error) {
+            console.log(res.error);
+          } else {
+            setMoney(res.data.record.money);
+          }
+        } else if (TokenService.getRole() === "consumer") {
+          const res = await getConsumer();
+          if (res.error) {
+            console.log(res.error);
+          } else {
+            setMoney(res.data.record.money);
+          }
         }
-      } else if (TokenService.getRole() == "consumer") {
-        const res = await getConsumer();
-        if (res.error) {
-          console.log(res.error);
-        } else {
-          setMoney(res.money);
-        }
-      }
+      })();
+      console.log("vcevkebk");
     }
-  });
-
+  }, []);
+  console.log("cebbek");
   return (
     <nav className="w-full flex justify-between items-center navbar">
       <img src={logo} alt="KrishiBazaar" className="w-[90px] h-[70px]" />
@@ -52,23 +56,7 @@ const Navbar = () => {
           className={`${
             !toggle ? "hidden" : "flex"
           } p-6 bg-black-gradient absolute top-20 right-0 mx-4 my-2 min-w-[140px] rounded-xl sidebar`}
-        >
-          <ul className="list-none flex justify-end items-start flex-1 flex-col">
-            {navLinks.map((nav, index) => (
-              <li
-                key={nav.id}
-                className={`font-poppins font-medium cursor-pointer text-[16px] ${
-                  active === nav.title ? "text-white" : "text-dimWhite"
-                } ${index === navLinks.length - 1 ? "mb-0" : "mb-4"}`}
-                onClick={() => setActive(nav.title)}
-              >
-                <a id="navi" href={`#${nav.id}`}>
-                  {nav.title}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
+        ></div>
       </div>
       {TokenService.hasAuthToken() ? (
         <nav className="w-full flex py-6 justify-between items-center navbar ">
@@ -93,6 +81,12 @@ const Navbar = () => {
                     <span className="navlink-text"> Inventory </span>
                   </Link>
                 </li>
+                <li className="font-poppins font-normal cursor-pointer text-[18px]">
+                  <Link to="/crafter/profile">
+                    <i className="fa fa-list"> </i>
+                    <span className="navlink-text"> Profile </span>
+                  </Link>
+                </li>
               </>
             ) : (
               <>
@@ -102,10 +96,16 @@ const Navbar = () => {
                     <span className="navlink-text"> My Orders </span>
                   </Link>
                 </li>
+                <li className="font-poppins font-normal cursor-pointer text-[18px]">
+                  <Link to="/consumer/profile">
+                    <i className="fa fa-list"> </i>
+                    <span className="navlink-text"> Profile </span>
+                  </Link>
+                </li>
               </>
             )}
             <li className="font-poppins font-normal cursor-pointer text-[18px]">
-              <Link to="/signup">
+              <Link to="/">
                 <FontAwesomeIcon icon={faSackDollar} />${money}
               </Link>
             </li>
@@ -123,14 +123,9 @@ const Navbar = () => {
             <li className="font-poppins font-normal cursor-pointer text-[18px]">
               <Link to="/"> Home </Link>
             </li>
-            <li className="font-poppins font-normal cursor-pointer text-[18px]">
-              <Link to="/signup"> Sign Up </Link>
-            </li>
+           
             <li className="font-poppins font-normal cursor-pointer text-[18px]">
               <Link to="/login"> Login </Link>
-            </li>
-            <li className="font-poppins font-normal cursor-pointer text-[18px]">
-              <Link to="/homepage"> Homepage </Link>
             </li>
           </ul>
         </nav>

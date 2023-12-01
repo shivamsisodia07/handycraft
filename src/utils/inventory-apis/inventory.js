@@ -2,7 +2,7 @@ import axios from "axios";
 import { resolve } from "../partials/resolve";
 import TokenService from "../../services/token-service";
 export async function getInventory() {
-    return await resolve(axios.get(`${process.env.INVENTORY_API_ENDPOINT}/`, {
+    return await resolve(axios.get(`${process.env.REACT_APP_INVENTORY_API_ENDPOINT}/`, {
         headers: {
             "content-type": "application/json",
             "authtoken": TokenService.getAuthToken(),
@@ -11,7 +11,7 @@ export async function getInventory() {
 }
 
 export async function getItem(id) {
-    return await resolve(axios.get(`${process.env.INVENTORY_API_ENDPOINT}/edit/${id}`, {
+    return await resolve(axios.get(`${process.env.REACT_APP_INVENTORY_API_ENDPOINT}/edit/${id}`, {
         headers: {
             "content-type": "application/json",
             "authtoken": TokenService.getAuthToken(),
@@ -20,7 +20,7 @@ export async function getItem(id) {
 }
 
 export async function editItem(id, data) {
-    return await resolve(axios.post(`${process.env.INVENTORY_API_ENDPOINT}/edit/${id}`, data, {
+    return await resolve(axios.post(`${process.env.REACT_APP_INVENTORY_API_ENDPOINT}/edit/${id}`, data, {
         headers: {
             "content-type": "application/json",
             "authtoken": TokenService.getAuthToken(),
@@ -29,7 +29,7 @@ export async function editItem(id, data) {
 }
 
 export async function addItem(data) {
-    return await resolve(axios.post(`${process.env.INVENTORY_API_ENDPOINT}/`, data, {
+    return await resolve(axios.post(`${process.env.REACT_APP_INVENTORY_API_ENDPOINT}/`, data, {
         headers: {
             "content-type": "multipart/form-data",
             "authtoken": TokenService.getAuthToken(),

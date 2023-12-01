@@ -1,4 +1,4 @@
-import styles from "../jsmaster";
+import styles from "../assets/js/jsmaster";
 import { logo } from "../assets";
 import { footerLinks, socialMedia } from "../constants";
 

@@ -46,19 +46,20 @@ function Login(props) {
     }
     else {
       const res = await login(data, role);
+      console.log(res);
       if (res.error) {
         props.showalert(res.error, "danger");
         console.log("Error is ", res.error);
         return;
       }
       else {
-        if (res.status == "success") {
+        if (res.data.status == "success") {
           setOtpform(true);
           setMobile(data.mobileNo);
         }
         else {
           props.showalert("Some Error Occured", "danger");
-          console.log(res.msg);
+          console.log(res.data.msg);
           return;
         }
       }
@@ -77,27 +78,22 @@ function Login(props) {
       return;
     }
     else {
-      if (res.status == "success") {
-        TokenService.saveAuthToken(res.token);
-        TokenService.saveRole(res.role);
-        TokenService.saveIsUpdate(res.isUpdate);
+      if (res.data.status == "success") {
+        TokenService.saveAuthToken(res.data.token);
+        TokenService.saveRole(res.data.role);
+        TokenService.saveIsUpdate(res.data.isUpdate);
         reset2();
         setMobile(null);
-        if (res.isUpdate == 1) {
-          if (res.role == "consumer") {
+        if (res.data.isUpdate == 0) {
+          if (res.data.role == "consumer") {
             history.push('/consumer/profile');
           }
-          else if (res.role == "crafter") {
+          else if (res.data.role == "crafter") {
             history.push('/crafter/profile');
           }
         }
         else {
-          if (res.role == "consumer") {
-            history.push('/consumer/profile');
-          }
-          else if (res.role == "crafter") {
-            history.push('/crafter/profile');
-          }
+          history.push("/");
         }
       }
       else {

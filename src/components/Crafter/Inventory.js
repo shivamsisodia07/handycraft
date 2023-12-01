@@ -12,15 +12,19 @@ const Inventory = (props) => {
     history.push("/login");
     return;
   }
-  useEffect(async () => {
-    const res = await getInventory();
-    if (res.error) {
-      props.showalert(res.error, "danger");
-    }
-    else {
-      setInventory(res.data.inventory);
-    }
-  })
+  useEffect(() => {
+    (async () => {
+      const res = await getInventory();
+      if (res.error) {
+        props.showalert(res.error, "danger");
+      }
+      else {
+        console.log(res.data.inventory);
+        setInventory(res.data.inventory);
+      }
+    })();
+
+  },[]);
   return (
     <>
       <div className="flex-1 flex justify-center items-center flex-row m-6">
@@ -40,6 +44,9 @@ const Inventory = (props) => {
                 <th className="font-poppins font-medium text-[18px] leading-[27px]  px-4 text-white">
                   Quantity
                 </th>
+                <th className="font-poppins font-medium text-[18px] leading-[27px]  px-4 text-white">
+                 Image
+                </th>
 
               </tr>
             </tbody>
@@ -58,6 +65,9 @@ const Inventory = (props) => {
                     </td>
                     <td className="font-poppins font-medium text-[18px] leading-[27px] text-white">
                       {item.quantity}
+                    </td>
+                    <td className="font-poppins font-medium text-[18px] leading-[27px] text-white">
+                      <img className="w-20 h-20" src={"http://localhost:5000/static/uploads/products/"+item.imgFile} />
                     </td>
 
                   </tr>

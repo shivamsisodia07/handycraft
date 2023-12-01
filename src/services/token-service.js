@@ -1,8 +1,6 @@
-import config from '../config'
-
 const TokenService = {
     saveAuthToken(token) {
-        localStorage.setItem(config.TOKEN_KEY, token)
+        localStorage.setItem(process.env.REACT_APP_TOKEN_KEY, token)
 
     },
     saveRole(role) {
@@ -12,10 +10,10 @@ const TokenService = {
         return localStorage.getItem("ROLE")
     },
     getAuthToken() {
-        return localStorage.getItem(config.TOKEN_KEY)
+        return localStorage.getItem(process.env.REACT_APP_TOKEN_KEY)
     },
     clearAuthToken() {
-        localStorage.removeItem(config.TOKEN_KEY)
+        localStorage.removeItem(process.env.REACT_APP_TOKEN_KEY)
         localStorage.clear();
     },
     saveIsUpdate(value) {
@@ -33,7 +31,7 @@ const TokenService = {
         localStorage.clear();
     },
     hasAuthToken() {
-        return !!TokenService.getAuthToken()
+        return TokenService.getAuthToken()
     },
     // makeBasicAuthToken(userName, password) {
     //     return window.btoa(`${userName}:${password}`)
