@@ -93,7 +93,13 @@ function Login(props) {
           }
         }
         else {
-          history.push("/");
+          if(res.data.role=="crafter"){
+            history.push("/inventory");
+          }
+          else{
+            history.push("/products");
+          }
+         
         }
       }
       else {

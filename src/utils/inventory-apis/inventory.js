@@ -36,3 +36,11 @@ export async function addItem(data) {
         }
     }).then((res) => res.data));
 }
+
+export async function fetchAll() {
+    return await resolve(axios.get(`${process.env.REACT_APP_INVENTORY_API_ENDPOINT}/all`, {
+        headers: {
+            "content-type": "application/json",
+        }
+    }).then((res) => res.data));
+}

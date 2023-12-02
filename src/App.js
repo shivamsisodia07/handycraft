@@ -13,9 +13,19 @@ import Inventory from "./components/Crafter/Inventory";
 import { useState } from "react";
 import ItemDetails from "./components/Crafter/ItemDetails";
 import Landing from "./components/Landing";
+import Preloader from "./components/Preloader/Preloader";
+import { useEffect } from "react";
 
 function App() {
   const [alert, setalert] = useState(null);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    console.log("hello world");
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000)
+  }, []);
+
   const showalert = (message, type) => {
     setalert({            // set alert is used to set state of alerts.
       message: message,
@@ -28,11 +38,12 @@ function App() {
 
   return (
     <>
+
       <div className='App'>
-        <BrowserRouter>
+        {loading ? (<Preloader />) : (<BrowserRouter>
 
 
-          <div className='bg-primary w-full overflow-hidden'>
+          <div className='w-full overflow-hidden'>
             <Alert alert={alert} />
             <div className={`${styles.paddingX} ${styles.flexCenter}`}>
               <div className={`${styles.boxWidth}`}>
@@ -40,7 +51,7 @@ function App() {
               </div>
             </div>
 
-
+     
             <Switch>
               <Route exact path='/' component={() => <Landing showalert={showalert} />} />
               <Route exact path='/login' component={() => <Login showalert={showalert} />} />
@@ -53,14 +64,15 @@ function App() {
             </Switch>
 
             <div
-              className={`bg-primary ${styles.paddingX} ${styles.flexCenter}`}>
+              className={`${styles.paddingX} ${styles.flexCenter}`}>
               <div className={`${styles.boxWidth}`}>
                 <Footer />
               </div>
             </div>
           </div>
 
-        </BrowserRouter>
+        </BrowserRouter>)}
+
       </div>
     </>
   );
