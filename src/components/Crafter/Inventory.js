@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import TokenService from "../../services/token-service";
 import { Link } from "react-router-dom";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { getInventory } from "../../utils/inventory-apis/inventory";
+import { useNavigate } from "react-router-dom";
 
 
 const Inventory = (props) => {
   const [inventory, setInventory] = useState(null);
-  let history = useHistory();
+  let navigate = useNavigate();
   if (!TokenService.hasAuthToken() || TokenService.getRole() != "crafter") {
-    history.push("/login");
+    navigate.push("/login");
     return;
   }
   useEffect(() => {

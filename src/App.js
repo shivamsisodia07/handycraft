@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./assets/css/App.css";
 import AddItems from "./components/Crafter/AddItems";
 import Login from "./components/Login";
@@ -15,6 +15,7 @@ import ItemDetails from "./components/Crafter/ItemDetails";
 import Landing from "./components/Landing";
 import Preloader from "./components/Preloader/Preloader";
 import { useEffect } from "react";
+import ProductLarge from "./components/ProductLarge";
 
 function App() {
   const [alert, setalert] = useState(null);
@@ -52,16 +53,17 @@ function App() {
             </div>
 
      
-            <Switch>
-              <Route exact path='/' component={() => <Landing showalert={showalert} />} />
-              <Route exact path='/login' component={() => <Login showalert={showalert} />} />
-              <Route exact path='/consumer/profile' component={() => <ConsumerProfile showalert={showalert} />} />
-              <Route exact path='/crafter/profile' component={() => <CrafterProfile showalert={showalert} />} />
-              <Route exact path='/add-item' component={() => <AddItems showalert={showalert} />} />
-              <Route exact path='/inventory' component={() => <Inventory showalert={showalert} />} />
-              <Route path='/item-details/' component={() => <ItemDetails showalert={showalert} />} />
+            <Routes>
+              <Route  path='/' element={<Landing showalert={showalert} />} />
+              <Route  path='/login' element={ <Login showalert={showalert} />} />
+              <Route  path='/consumer/profile' element={ <ConsumerProfile showalert={showalert} />} />
+              <Route  path='/crafter/profile' element={ <CrafterProfile showalert={showalert} />} />
+              <Route  path='/add-item' element={ <AddItems showalert={showalert} />} />
+              <Route  path='/inventory' element={ <Inventory showalert={showalert} />} />
+              <Route path='/item-details/'element={ <ItemDetails showalert={showalert} />} />
+              <Route  path='/productlarge' element={<ProductLarge showalert={showalert} />} />
 
-            </Switch>
+            </Routes>
 
             <div
               className={`${styles.paddingX} ${styles.flexCenter}`}>

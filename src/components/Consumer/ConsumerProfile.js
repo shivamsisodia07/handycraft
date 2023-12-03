@@ -4,16 +4,16 @@ import ConsumerSchema from "../../utils/validations/ConsumerSchema";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import TokenService from "../../services/token-service";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useNavigate } from "react-router-dom";
 
 const ConsumerProfile = (props) => {
   const [load, setLoading] = useState(false);
-  let history = useHistory();
+  let navigate = useNavigate();
   if (TokenService.hasAuthToken() && TokenService.getRole() != "consumer") {
-    history.push("/login");
+    navigate("/login");
   }
   else if (!TokenService.hasAuthToken()) {
-    history.push("/login");
+    navigate("/login");
   }
   let form = useForm({ onblur: true });
   const { register, handleSubmit, formState: { errors }, reset } = form;

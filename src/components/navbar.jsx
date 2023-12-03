@@ -7,16 +7,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSackDollar } from "@fortawesome/free-solid-svg-icons";
 import { getCrafter } from "../utils/crafter-apis/crafter";
 import { getConsumer } from "../utils/consumer-apis/consumer";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useNavigate } from "react-router-dom";
 const Navbar = () => {
-  let history = useHistory();
+  let navigate = useNavigate();
   const [toggle, setToggle] = useState(false);
   const [money, setMoney] = useState(0);
   const logOutClick = () => {
     TokenService.clearAuthToken();
     TokenService.clearRole();
     TokenService.clearIsUpdate();
-    history.push("/login");
+    navigate("/login");
   };
   useEffect(() => {
     if (TokenService.hasAuthToken()) {

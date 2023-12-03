@@ -2,19 +2,19 @@ import React from "react";
 import TokenService from "../../services/token-service";
 import InventorySchema from "../../utils/validations/InventorySchema";
 import { useForm } from "react-hook-form";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useNavigate } from "react-router-dom";
 import { addItem } from "../../utils/inventory-apis/inventory";
 
 
 
 function AddItems(props) {
-  let history = useHistory();
+  let navigate = useNavigate();
   if (TokenService.getRole() != "crafter") {
-    history.push("/");
+   navigate("/");
     return;
   }
   else if (!TokenService.hasAuthToken()) {
-    history.push("/login");
+    navigate("/login");
     return;
   }
   const { register, handleSubmit, formState: { errors }, reset } = useForm({ onblur: true });
@@ -35,7 +35,7 @@ function AddItems(props) {
     else {
       props.showalert("Item added successfully", "success");
       reset();
-      history.push("/");
+      navigate("/");
     }
   }
 

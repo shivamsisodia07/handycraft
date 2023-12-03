@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Product from './Product';
+import ProductCard from './ProductCard';
 import { useEffect } from 'react';
 import { fetchAll } from "../utils/inventory-apis/inventory";
 
@@ -58,7 +58,7 @@ export default function Allproducts(props) {
         </div> */}
         <div className="card mt-4">
           {products && products.map((product) => (
-            <Product
+            <ProductCard
               key={product.id}
               id={product.id}
               name={product.name}

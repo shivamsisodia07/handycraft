@@ -1,15 +1,15 @@
 import React, { useState, useRef, useEffect } from "react";
-//import { useNavigate } from "react-router-dom";
-import "./product.css";
+import { useNavigate } from "react-router-dom";
+import "../assets/css/product.css";
 
-export default function Product(props) {
+export default function ProductCard(props) {
   var propsvar = { ...props };
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  // function handleclick() {
-  //   navigate("/productlarge", { state: { ...props } });
-  // }
+  function handleclick() {
+    navigate("/productlarge", { state: { ...props } });
+  }
 
   /* ANimation  */
   const [isVisible, setIsVisible] = useState(false);
@@ -43,6 +43,7 @@ export default function Product(props) {
       } `}
       ref={elementRef}
       style={{ width: "180px", overflow: "hidden" }}
+      onClick={handleclick}
      
     >
       <div
@@ -60,14 +61,11 @@ export default function Product(props) {
         <p className="btn btn-outline-warning rounded-4 p-2">
           $ {propsvar.price}
         </p>
-        <p className="btn btn-outline-warning rounded-4 p-2">
-           {propsvar.quantity}
-        </p>
         <p>
           <span className="btn btn-success rounded-4 py-0 px-2">
             5
             <i className="bi bi-star-fill ms-1" />
-          </span>{" "}
+          </span>
          240
         </p>
       </div>

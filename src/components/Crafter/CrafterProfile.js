@@ -4,20 +4,21 @@ import CrafterSchema from "../../utils/validations/CrafterSchema";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import TokenService from "../../services/token-service";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+
+import { useNavigate } from "react-router-dom";
 
 
 
 const CrafterProfile = (props) => {
 
-  var history = useHistory();
+  var navigate = useNavigate();
   const [load, setLoading] = useState(false);
   if (TokenService.hasAuthToken() && TokenService.getRole() != "crafter") {
-    history.push("/login");
+    navigate("/login");
     return;
   }
   else if (!TokenService.hasAuthToken()) {
-    history.push("/login");
+    navigate("/login");
     return;
   }
   let form = useForm({ onblur: true });
@@ -35,7 +36,7 @@ const CrafterProfile = (props) => {
       if (res.data.status === "success") {
         props.showalert("Profile updated successfully", "success");
         reset();
-        history.push("/");
+        navigate("/");
       }
       else {
         props.showalert(res.data.msg, "danger");

@@ -4,7 +4,7 @@ import RadioGroup from "./RadioGroup";
 import { UserIcon } from "@heroicons/react/24/solid";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import LoginSchema from "../utils/validations/LoginSchema";
 import OtpSchema from "../utils/validations/OtpSchema";
 import { useEffect } from "react";
@@ -12,12 +12,12 @@ import { login, verifyOtp } from "../utils/auth-apis/auth.js";
 
 
 function Login(props) {
-  var history = useHistory();
+  var navigate = useNavigate();
   if (TokenService.hasAuthToken() && TokenService.getRole() == "crafter") {
-    history.push("/crafter/profile");
+    navigate("/crafter/profile");
   }
   else if (TokenService.hasAuthToken() && TokenService.getRole() == "consumer") {
-    history.push("/consumer/profile");
+    navigate("/consumer/profile");
   }
 
   const [mobile, setMobile] = useState(null);
@@ -86,18 +86,18 @@ function Login(props) {
         setMobile(null);
         if (res.data.isUpdate == 0) {
           if (res.data.role == "consumer") {
-            history.push('/consumer/profile');
+            navigate('/consumer/profile');
           }
           else if (res.data.role == "crafter") {
-            history.push('/crafter/profile');
+            navigate('/crafter/profile');
           }
         }
         else {
           if(res.data.role=="crafter"){
-            history.push("/inventory");
+            navigate("/inventory");
           }
           else{
-            history.push("/products");
+            navigate("/products");
           }
          
         }

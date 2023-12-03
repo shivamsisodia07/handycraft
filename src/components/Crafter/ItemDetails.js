@@ -3,35 +3,37 @@ import TokenService from "../../services/token-service";
 import InventorySchema from "../../utils/validations/InventorySchema";
 import { useForm } from "react-hook-form";
 import { getItem, editItem } from "../../utils/inventory-apis/inventory";
+import { useNavigate } from "react-router-dom";
 const ItemDetails = (props) => {
+  let navigate = useNavigate();
   if (!TokenService.hasAuthToken() || TokenService.getRole() != "crafter") {
-    window.location = '/login'
+    navigate("/login");
   }
 
   let form = useForm({ onblur: true });
   const { register, handleSubmit, formState: { errors }, reset } = form;
   useEffect(() => {
-    (async()=>{
+    (async () => {
       const itemId = window.location.href.split("/")[4];
-    const res = await getItem(itemId);
-    if (res.error) {
-      props.showalert(res.error, "danger");
-      console.log("Error is ", res.error);
-    }
-    else {
-      if (res.data.status === "success") {
-        form.setValue("name", res.data.record.name);
-        form.setValue("description", res.data.record.description);
-        form.setValue("price", res.data.record.pricePerUnit);
-        form.setValue("quantity", res.data.record.quantity);
+      const res = await getItem(itemId);
+      if (res.error) {
+        props.showalert(res.error, "danger");
+        console.log("Error is ", res.error);
       }
       else {
-        props.showalert(res.data.msg, "danger");
+        if (res.data.status === "success") {
+          form.setValue("name", res.data.record.name);
+          form.setValue("description", res.data.record.description);
+          form.setValue("price", res.data.record.pricePerUnit);
+          form.setValue("quantity", res.data.record.quantity);
+        }
+        else {
+          props.showalert(res.data.msg, "danger");
+        }
       }
-    }
     })();
-    
-  },[])
+
+  }, [])
 
   const update = async (data) => {
     const itemId = window.location.href.split("/")[4];
