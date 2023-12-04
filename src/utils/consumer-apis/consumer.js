@@ -3,7 +3,7 @@ import { resolve } from "../partials/resolve";
 import TokenService from "../../services/token-service";
 
 export async function getConsumer(){
-    return await resolve(axios.get(`${process.env.REACT_APP_CONSUMER_API_ENDPOINT}/`,{
+    return await resolve(axios.get(`${process.env.REACT_APP_CONSUMER_API_ENDPOINT}/edit`,{
         headers:{
             "content-type": "application/json",
             "authtoken": TokenService.getAuthToken(),

@@ -42,7 +42,7 @@ const ConsumerProfile = (props) => {
   const editProfile = async (data) => {
     console.log(data);
     const { name, city, district, mobileNo } = data;
-    const res = await editConsumer({ name, city, state, district, mobileNo });
+    const res = await editConsumer({ name, city, district, mobileNo });
     if (res.error) {
       props.showalert(res.error, "danger");
       console.log("Error is ", res.error);
@@ -51,6 +51,7 @@ const ConsumerProfile = (props) => {
       if (res.data.status === "success") {
         props.showalert("Profile updated successfully", "success");
         reset();
+        navigate("/");
       }
     }
   };
