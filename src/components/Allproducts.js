@@ -40,7 +40,7 @@ export default function Allproducts(props) {
       }
 
     })();
-  })
+  },[])
 
   return (
     <>
