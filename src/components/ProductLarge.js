@@ -1,10 +1,20 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useLocation,useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../Store/action";
 import CartCounter from "./CartCounter";
 const ProductLarge = () => {
+    let navigate = useNavigate();
+    if (!TokenService.hasAuthToken()) {
+        navigate("/login");
+        return;
+    }
+    else if (TokenService.getRole() != "consumer") {
+        props.showalert("You are not authorized to access this page", "danger");
+        navigate("/");
+        return;
+    }
     window.scrollTo(0, 0);
     const { state } = useLocation();
     const dispatch = useDispatch();
@@ -37,13 +47,11 @@ const ProductLarge = () => {
                     >
                         {state.name}
                     </h2>
-                    <h5 className="text-success ms-5" style={{ margin: "0px" }}>
-                        Special Price
-                    </h5>
+                   
                     <h2 className="mx-5 mt-1 d-flex text-white align-items-center">
                         MRP:
                         ${state.price}
-                        <div className="text-success mx-4">25% off</div>
+                       
                     </h2>
                     <p className="ms-5 my-3 bg-success text-white rounded-5 px-3 d-inline fs-4 align-items-center">
                         5

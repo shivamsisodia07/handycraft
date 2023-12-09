@@ -6,8 +6,14 @@ import { getItem, editItem } from "../../utils/inventory-apis/inventory";
 import { useNavigate } from "react-router-dom";
 const ItemDetails = (props) => {
   let navigate = useNavigate();
-  if (!TokenService.hasAuthToken() || TokenService.getRole() != "crafter") {
-    navigate("/login");
+  if (!TokenService.hasAuthToken()) {
+    navigate.push("/login");
+    return;
+  }
+  else if (TokenService.getRole() != "crafter") {
+    props.showalert("You are not authorized to access this page", "danger");
+    navigate.push("/");
+    return;
   }
 
   let form = useForm({ onblur: true });

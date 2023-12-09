@@ -8,8 +8,13 @@ import { useNavigate } from "react-router-dom";
 const Inventory = (props) => {
   const [inventory, setInventory] = useState(null);
   let navigate = useNavigate();
-  if (!TokenService.hasAuthToken() || TokenService.getRole() != "crafter") {
+  if(!TokenService.hasAuthToken()){
     navigate.push("/login");
+    return;
+  }
+  else if (TokenService.getRole() != "crafter") {
+    props.showalert("You are not authorized to access this page", "danger");
+    navigate.push("/");
     return;
   }
   useEffect(() => {

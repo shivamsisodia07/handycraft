@@ -16,12 +16,13 @@ import Landing from "./components/Landing";
 import Preloader from "./components/Preloader/Preloader";
 import { useEffect } from "react";
 import ProductLarge from "./components/ProductLarge";
+import Cart from "./components/Cart";
+import Order from "./components/Order";
 
 function App() {
   const [alert, setalert] = useState(null);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    console.log("hello world");
     setTimeout(() => {
       setLoading(false);
     }, 3000)
@@ -52,16 +53,18 @@ function App() {
               </div>
             </div>
 
-     
+
             <Routes>
-              <Route  path='/' element={<Landing showalert={showalert} />} />
-              <Route  path='/login' element={ <Login showalert={showalert} />} />
-              <Route  path='/consumer/profile' element={ <ConsumerProfile showalert={showalert} />} />
-              <Route  path='/crafter/profile' element={ <CrafterProfile showalert={showalert} />} />
-              <Route  path='/add-item' element={ <AddItems showalert={showalert} />} />
-              <Route  path='/inventory' element={ <Inventory showalert={showalert} />} />
-              <Route path='/item-details/'element={ <ItemDetails showalert={showalert} />} />
-              <Route  path='/productlarge' element={<ProductLarge showalert={showalert} />} />
+              <Route path='/' element={<Landing showalert={showalert} />} />
+              <Route path='/login' element={<Login showalert={showalert} />} />
+              <Route path='/consumer/profile' element={<ConsumerProfile showalert={showalert} />} />
+              <Route path='/crafter/profile' element={<CrafterProfile showalert={showalert} />} />
+              <Route path='/add-item' element={<AddItems showalert={showalert} />} />
+              <Route path="/cart" element={<Cart showalert={showalert} />} />
+              <Route path='/inventory' element={<Inventory showalert={showalert} />} />
+              <Route path='/item-details/' element={<ItemDetails showalert={showalert} />} />
+              <Route path='/productlarge' element={<ProductLarge showalert={showalert} />} />
+              <Route path="/myOrders" element={<Order showalert={showalert} />} />
 
             </Routes>
 

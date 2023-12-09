@@ -9,14 +9,16 @@ import { addItem } from "../../utils/inventory-apis/inventory";
 
 function AddItems(props) {
   let navigate = useNavigate();
-  if (TokenService.getRole() != "crafter") {
-   navigate("/");
-    return;
-  }
-  else if (!TokenService.hasAuthToken()) {
+  if (!TokenService.hasAuthToken()) {
     navigate("/login");
     return;
   }
+  else if (TokenService.getRole() != "crafter") {
+    props.showalert("You are not authorized to access this page", "danger");
+   navigate("/");
+    return;
+  }
+ 
   const { register, handleSubmit, formState: { errors }, reset } = useForm({ onblur: true });
   const addRequest = async (data) => {
 

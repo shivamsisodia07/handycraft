@@ -34,6 +34,8 @@ const reducer = (state = initialstate, action) => {
             })
             newState.splice(index, 1);
             return ([...newState]);
+        case "CLEAR_CART":
+            return ([]);    
         default:
             return state
 

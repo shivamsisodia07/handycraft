@@ -13,14 +13,16 @@ const CrafterProfile = (props) => {
 
   var navigate = useNavigate();
   const [load, setLoading] = useState(false);
-  if (TokenService.hasAuthToken() && TokenService.getRole() != "crafter") {
+   if (!TokenService.hasAuthToken()) {
     navigate("/login");
     return;
   }
-  else if (!TokenService.hasAuthToken()) {
-    navigate("/login");
+  if (TokenService.getRole() != "crafter") {
+    props.showalert("You are not authorized to access this page", "danger");
+    navigate("/");
     return;
   }
+ 
   let form = useForm({ onblur: true });
   const { register, handleSubmit, formState: { errors }, reset } = form;
 

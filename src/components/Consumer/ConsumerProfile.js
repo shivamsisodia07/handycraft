@@ -9,33 +9,36 @@ import { useNavigate } from "react-router-dom";
 const ConsumerProfile = (props) => {
   const [load, setLoading] = useState(false);
   let navigate = useNavigate();
-  if (TokenService.hasAuthToken() && TokenService.getRole() != "consumer") {
-    navigate("/login");
+  if (!TokenService.hasAuthToken()) {
+    navigate.push("/login");
+    return;
   }
-  else if (!TokenService.hasAuthToken()) {
-    navigate("/login");
+  else if (TokenService.getRole() != "consumer") {
+    props.showalert("You are not authorized to access this page", "danger");
+    navigate.push("/");
+    return;
   }
   let form = useForm({ onblur: true });
   const { register, handleSubmit, formState: { errors }, reset } = form;
   useEffect(() => {
-    (async()=>{
+    (async () => {
       const res = await getConsumer();
-    console.log(res);
-    if (res.error) {
-      props.showalert(res.error, "danger");
-      console.log("Error is ", res.error);
-    }
-    else {
-      if (res.data.status === "success") {
-        form.setValue("name", res.data.record.name);
-        form.setValue("city", res.data.record.city);
-        form.setValue("district", res.data.record.district);
-        form.setValue("mobileNo", res.data.record.mobileNo);
-        setLoading(true);
+      console.log(res);
+      if (res.error) {
+        props.showalert(res.error, "danger");
+        console.log("Error is ", res.error);
       }
-    }
+      else {
+        if (res.data.status === "success") {
+          form.setValue("name", res.data.record.name);
+          form.setValue("city", res.data.record.city);
+          form.setValue("district", res.data.record.district);
+          form.setValue("mobileNo", res.data.record.mobileNo);
+          setLoading(true);
+        }
+      }
     })();
-    
+
 
 
   }, [])
