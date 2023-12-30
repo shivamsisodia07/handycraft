@@ -7,12 +7,12 @@ import { useNavigate } from "react-router-dom";
 const ItemDetails = (props) => {
   let navigate = useNavigate();
   if (!TokenService.hasAuthToken()) {
-    navigate.push("/login");
+    navigate("/login");
     return;
   }
   else if (TokenService.getRole() != "crafter") {
     props.showalert("You are not authorized to access this page", "danger");
-    navigate.push("/");
+    navigate("/");
     return;
   }
 

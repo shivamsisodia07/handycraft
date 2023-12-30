@@ -10,12 +10,12 @@ const ConsumerProfile = (props) => {
   const [load, setLoading] = useState(false);
   let navigate = useNavigate();
   if (!TokenService.hasAuthToken()) {
-    navigate.push("/login");
+    navigate("/login");
     return;
   }
   else if (TokenService.getRole() != "consumer") {
     props.showalert("You are not authorized to access this page", "danger");
-    navigate.push("/");
+    navigate("/");
     return;
   }
   let form = useForm({ onblur: true });
