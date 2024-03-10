@@ -1,5 +1,5 @@
-import React from "react";
-import { useSelector, useDispatch, useSelector } from "react-redux";
+import React,{useState,useEffect} from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { removeFromCart, updateCart } from "../Store/action";
 import CartProducts from "./CartProducts";
 import { placeOrder } from "../utils/order-apis/order";
@@ -19,7 +19,7 @@ const Cart = () => {
     const dispatch = useDispatch();
     const cartItems = useSelector((state) => state);
     const [total, setTotal] = useState(0);
-   
+    console.log(cartItems)
    
     const remove = (product) => {
         const confirm = window.confirm("Are you sure you want to remove this item from cart?");
@@ -57,8 +57,10 @@ const Cart = () => {
             <div className="container">
                 {cartItems.length > 0 ? (
                     <div>
-                        {cartItems.map((item) => {
-                            <CartProducts item={item} onChange={changeQuantity} onRemove={remove} />
+                        {cartItems.map((item,idx) => {
+                            return (
+                            <CartProducts item={item.product} onChange={changeQuantity} quantity={item.quantity} onRemove={remove} key={idx} />
+                            )
                         })}
                     </div>
                 ) : "No Items in the Cart"}

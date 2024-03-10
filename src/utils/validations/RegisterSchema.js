@@ -1,15 +1,25 @@
-const LoginSchema = {
-    email: {
-        required: {
-            value: true,
-            message: "Email Required"
+const RegisterSchema = {
+    email:{
+        required:{
+            value:true,
+            message:"Email Required"
         },
         pattern: {
             value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
             message: "Invalid Email"
         }
     },
-    password: {
+    password:{
+        required:{
+            value:true,
+            message:"Password Required"
+        },
+        minLength:{
+            value:6,
+            message:"Password must have at least 6 characters"
+        }
+    },
+    cpassword: {
         required: {
             value: true,
             message: "Password Required"
@@ -17,10 +27,9 @@ const LoginSchema = {
         minLength: {
             value: 6,
             message: "Password must have at least 6 characters"
-        }
-    }
-
-
+        },
+    },
+    
     // mobileNo: {
     //     required: {
     //         value: true,
@@ -32,4 +41,4 @@ const LoginSchema = {
     //     },
     // }
 }
-export default LoginSchema;
+export default RegisterSchema;

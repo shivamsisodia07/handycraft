@@ -1,14 +1,11 @@
-import React from "react";
+import React,{useState} from "react";
 import TokenService from "../services/token-service.js";
 import RadioGroup from "./RadioGroup";
 import { UserIcon } from "@heroicons/react/24/solid";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import LoginSchema from "../utils/validations/LoginSchema";
-import OtpSchema from "../utils/validations/OtpSchema";
-import { useEffect } from "react";
-import { login, verifyOtp } from "../utils/auth-apis/auth.js";
+import { login} from "../utils/auth-apis/auth.js";
 
 
 function Login(props) {
@@ -19,12 +16,9 @@ function Login(props) {
   else if (TokenService.hasAuthToken() && TokenService.getRole() == "consumer") {
     navigate("/consumer/profile");
   }
-
-  const [mobile, setMobile] = useState(null);
-  const [role, setRole] = useState(null);
-  const [otpform, setOtpform] = useState(false);
+  const [role, setRole] = useState(null);  
   const { register, handleSubmit, formState: { errors }, reset } = useForm({ onblur: true });
-  const { register: reg2, handleSubmit: handleSubmit2, formState: { errors: errors2 }, reset: reset2 } = useForm({ onblur: true });
+
 
 
 
@@ -54,8 +48,28 @@ function Login(props) {
       }
       else {
         if (res.data.status == "success") {
-          setOtpform(true);
-          setMobile(data.mobileNo);
+          TokenService.saveAuthToken(res.data.token);
+          TokenService.saveRole(res.data.role);
+          TokenService.saveIsUpdate(res.data.isUpdate);
+          reset();
+        
+          if (res.data.isUpdate == 0) {
+            if (res.data.role == "consumer") {
+              navigate('/consumer/profile');
+            }
+            else if (res.data.role == "crafter") {
+              navigate('/crafter/profile');
+            }
+          }
+          else {
+            if (res.data.role == "crafter") {
+              navigate("/inventory");
+            }
+            else {
+              navigate("/products");
+            }
+
+          }
         }
         else {
           props.showalert("Some Error Occured", "danger");
@@ -66,62 +80,14 @@ function Login(props) {
     }
   };
 
-  const verify = async (data) => {
-    const res = await verifyOtp({
-      otp: data.otp,
-      role: role,
-      mobileNo: mobile
-    });
-    if (res.error) {
-      props.showalert(res.error, "danger");
-      console.log("Error is ", res.error);
-      return;
-    }
-    else {
-      if (res.data.status == "success") {
-        TokenService.saveAuthToken(res.data.token);
-        TokenService.saveRole(res.data.role);
-        TokenService.saveIsUpdate(res.data.isUpdate);
-        reset2();
-        setMobile(null);
-        if (res.data.isUpdate == 0) {
-          if (res.data.role == "consumer") {
-            navigate('/consumer/profile');
-          }
-          else if (res.data.role == "crafter") {
-            navigate('/crafter/profile');
-          }
-        }
-        else {
-          if(res.data.role=="crafter"){
-            navigate("/inventory");
-          }
-          else{
-            navigate("/products");
-          }
-         
-        }
-      }
-      else {
-        props.showalert("Some Error Occured", "danger");
-      }
-    }
 
 
-
-  }
-
-  useEffect(() => {
-    if (otpform) {
-      reset();
-    }
-  }, [otpform]);
 
 
   return (
     <>
       <div>
-        {!otpform ? (<div className="Fast">
+        <div className="Fast">
           <div className="Login">
             <section id="loginPage">
               <h2 style={{ padding: "0px" }}>Login</h2>
@@ -145,17 +111,28 @@ function Login(props) {
 
               <form className="loginForm" onSubmit={handleSubmit(loginUser)}>
 
-                <label htmlFor="mobileNo">Mobile No</label>
+                <label htmlFor="email">Mobile No</label>
                 <input
                   type="text"
-                  id="mobileNo"
-                  name="mobileNo"
-                  placeholder="MobileNo"
-                  {...register("mobileNo", LoginSchema.mobileNo)}
+                  id="email"
+                  name="email"
+                  placeholder="email"
+                  {...register("email", LoginSchema.email)}
 
                   required
                 />
-                {errors.mobileNo && <span className="text-danger">{errors.mobileNo.message}</span>}
+                {errors.email && <span className="text-danger">{errors.email.message}</span>}
+                <label htmlFor="password">Password</label>
+                <input
+                  type="text"
+                  id="password"
+                  name="password"
+                  placeholder="Password"
+                  {...register("password", LoginSchema.password)}
+
+                  required
+                />
+                {errors.password && <span className="text-danger">{errors.password.message}</span>}
 
 
 
@@ -168,34 +145,7 @@ function Login(props) {
               </form>
             </section>
           </div>
-        </div>) : (
-          <div className="Fast">
-            <div className="Login">
-              <section id="loginPage">
-                <h2 style={{ padding: "0px" }}>Login</h2>
-                <form className="loginForm" onSubmit={handleSubmit2(verify)}>
-                  <label htmlFor="otp">Otp</label>
-                  <input
-                    type="text"
-                    id="otp"
-                    name="otp"
-                    placeholder="Otp"
-                    {...reg2("otp", OtpSchema.otp)}
-                    required
-                  />
-                  {errors2.otp && <span className="text-danger">{errors2.otp.message}</span>}
-
-                  <button className="go-button" type="submit">
-                    Go
-                  </button>
-
-                </form>
-              </section>
-            </div>
-          </div>
-        )
-
-        }
+        </div>
       </div>
     </>
 

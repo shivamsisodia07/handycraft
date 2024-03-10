@@ -18,17 +18,17 @@ const VideoCarousel = () => {
         // border: '2px red solid',
         // justifyContent: 'center'
       }}>
-          <iframe className="embed-responsive-item" src="https://www.youtube.com/embed/WoX2V0A3s3o?si=-mbnSYf43VWs9dwc" allowfullscreen style={{
+          <iframe className="embed-responsive-item" src="https://www.youtube.com/embed/WoX2V0A3s3o?si=-mbnSYf43VWs9dwc" allowFullscreen style={{
                   width: '100%', height: '100%'}}></iframe>
-          <iframe className="embed-responsive-item" src="https://www.youtube.com/embed/Rp6Sn1coaKk?si=C-CUijdAcZIHC3H2" allowfullscreen style={{
+          <iframe className="embed-responsive-item" src="https://www.youtube.com/embed/Rp6Sn1coaKk?si=C-CUijdAcZIHC3H2" allowFullscreen style={{
                   width: '100%', height: '100%'}}></iframe>
-          <iframe className="embed-responsive-item" src="https://www.youtube.com/embed/G51VDd2xZpo?si=bhhmIQEo730t9VA_" allowfullscreen style={{
+          <iframe className="embed-responsive-item" src="https://www.youtube.com/embed/G51VDd2xZpo?si=bhhmIQEo730t9VA_" allowFullscreen style={{
                   width: '100%', height: '100%'}}></iframe>
-          <iframe className="embed-responsive-item" src="https://www.youtube.com/embed/A6quHT0joWk?si=4hsXpeP_3-5OcyR9" allowfullscreen style={{
+          <iframe className="embed-responsive-item" src="https://www.youtube.com/embed/A6quHT0joWk?si=4hsXpeP_3-5OcyR9" allowFullscreen style={{
                   width: '100%', height: '100%'}}></iframe>
-          <iframe className="embed-responsive-item" src="https://www.youtube.com/embed/5nxygYOsC8I?si=h1qVSmoBHES7F-9o" allowfullscreen style={{
+          <iframe className="embed-responsive-item" src="https://www.youtube.com/embed/5nxygYOsC8I?si=h1qVSmoBHES7F-9o" allowFullscreen style={{
                   width: '100%', height: '100%'}}></iframe>
-          <iframe className="embed-responsive-item" src="https://www.youtube.com/embed/pKkOVJF9pRk?si=uuJbbYRcJ8f9fp-4" allowfullscreen style={{
+          <iframe className="embed-responsive-item" src="https://www.youtube.com/embed/pKkOVJF9pRk?si=uuJbbYRcJ8f9fp-4" allowFullscreen style={{
                   width: '100%', height: '100%'}}></iframe>
       </div>
         {/* <Carousel>

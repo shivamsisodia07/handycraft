@@ -4,7 +4,8 @@ import { useLocation,useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../Store/action";
 import CartCounter from "./CartCounter";
-const ProductLarge = () => {
+import TokenService from "../services/token-service";
+const ProductLarge = (props) => {
     let navigate = useNavigate();
     if (!TokenService.hasAuthToken()) {
         navigate("/login");

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Modal, Button } from "react-bootstrap";
-import { useDispatch } from "react-redux";
 import TokenService from "../services/token-service";
 import { useNavigate } from "react-router-dom";
-import './product.css';
+import '../assets/css/product.css';
+
 
 const CartProducts = (props) => {
     let navigate = useNavigate();
@@ -24,7 +24,7 @@ const CartProducts = (props) => {
     };
 
     const confirmRemove = () => {
-        props.onRemove(props.id);
+        props.onRemove(props.item.id);
         setShowModal(false);
     };
 
@@ -39,12 +39,12 @@ const CartProducts = (props) => {
     return (
         <>
             <div className="m-4 d-flex align-items-center border border-opacity-25 rounded-4 border-white pe-2">
-                <div className="bg-white align-items-center justify-content-center d-flex rounded-4" style={{ height: "80px", width: "80px", outline: "solid" }}>
-                    <img className="d-block m-2 object-fit-contain rounded-4" src={props.imgFile} alt="not loading" style={{ maxHeight: "80px", maxWidth: "80px" }} />
+                <div className="bg-white align-items-center justify-content-center d-flex rounded-4" style={{ height: "200px", width: "200px", outline: "solid" }}>
+                    <img className="d-block  object-fit-contain rounded-4"  src={"http://localhost:5000/static/uploads/products/" + props.item.imgFile} alt="not loading" style={{ height: "100%", width: "100%" }} />
                 </div>
-                <h5 className="m-3 mx-2 text-white">{props.name}</h5>
+                <h5 className="m-3 mx-2 text-white">{props.item.name}</h5>
                 <div className="h-100 d-flex align-items-center">
-                    <p className="btn btn-warning ms-auto p-2 rounded-4 text-black d-inline">${props.price}</p>
+                    <p className="btn btn-warning ms-auto p-2 rounded-4 text-black d-inline">${props.item.price}</p>
 
                     <div class="checkout-section">
                         <div class="btn-container">

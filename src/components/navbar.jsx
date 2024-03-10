@@ -4,7 +4,7 @@ import { close, logo, menu } from "../assets";
 import { Link } from "react-router-dom";
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSackDollar } from "@fortawesome/free-solid-svg-icons";
+import { faSackDollar,faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { getCrafter } from "../utils/crafter-apis/crafter";
 import { getConsumer } from "../utils/consumer-apis/consumer";
 import { useNavigate } from "react-router-dom";
@@ -59,7 +59,7 @@ const Navbar = () => {
         ></div>
       </div>
       {TokenService.hasAuthToken() ? (
-        <nav className="w-full flex py-6 justify-between items-center navbar ">
+       
           <ul className="list-none sm:flex hidden justify-end items-center flex-1">
             <li className="font-poppins font-normal cursor-pointer text-[18px]">
               <Link to="/">
@@ -109,6 +109,11 @@ const Navbar = () => {
                 <FontAwesomeIcon icon={faSackDollar} />${money}
               </Link>
             </li>
+            <li className="font-poppins font-normal cursor-pointer text-[18px]">
+              <Link to="/cart">
+                <FontAwesomeIcon icon={faCartShopping} />
+              </Link>
+            </li>
             <li>
               <Link to="/" onClick={logOutClick}>
                 <i className="fa fa-sign-out"> </i>
@@ -116,9 +121,9 @@ const Navbar = () => {
               </Link>
             </li>
           </ul>
-        </nav>
+       
       ) : (
-        <nav className="w-full flex py-6 justify-center items-center navbar">
+       
           <ul className="list-none sm:flex hidden justify-end items-center flex-1">
             <li className="font-poppins font-normal cursor-pointer text-[18px]">
               <Link to="/"> Home </Link>
@@ -127,8 +132,11 @@ const Navbar = () => {
             <li className="font-poppins font-normal cursor-pointer text-[18px]">
               <Link to="/login"> Login </Link>
             </li>
+            <li className="font-poppins font-normal cursor-pointer text-[18px]">
+              <Link to="/register"> Register </Link>
+            </li>
           </ul>
-        </nav>
+        
       )}
     </nav>
   );

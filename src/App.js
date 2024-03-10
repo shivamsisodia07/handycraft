@@ -16,8 +16,10 @@ import Landing from "./components/Landing";
 import Preloader from "./components/Preloader/Preloader";
 import { useEffect } from "react";
 import ProductLarge from "./components/ProductLarge";
+import CartProducts from "./components/CartProducts";
 import Cart from "./components/Cart";
 import Order from "./components/Order";
+import Register from "./components/Register";
 
 function App() {
   const [alert, setalert] = useState(null);
@@ -57,13 +59,16 @@ function App() {
             <Routes>
               <Route path='/' element={<Landing showalert={showalert} />} />
               <Route path='/login' element={<Login showalert={showalert} />} />
+              <Route path='/register' element={<Register showalert={showalert} />} />
               <Route path='/consumer/profile' element={<ConsumerProfile showalert={showalert} />} />
               <Route path='/crafter/profile' element={<CrafterProfile showalert={showalert} />} />
               <Route path='/add-item' element={<AddItems showalert={showalert} />} />
               <Route path="/cart" element={<Cart showalert={showalert} />} />
               <Route path='/inventory' element={<Inventory showalert={showalert} />} />
-              <Route path='/item-details/' element={<ItemDetails showalert={showalert} />} />
+              <Route path='/item-details/:id' element={<ItemDetails showalert={showalert} />} />
               <Route path='/productlarge' element={<ProductLarge showalert={showalert} />} />
+              <Route path='/cart' element={<Cart showalert={showalert} />} />
+
               <Route path="/myOrders" element={<Order showalert={showalert} />} />
 
             </Routes>

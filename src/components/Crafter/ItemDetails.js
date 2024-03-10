@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import TokenService from "../../services/token-service";
 import InventorySchema from "../../utils/validations/InventorySchema";
 import { useForm } from "react-hook-form";
@@ -28,10 +28,10 @@ const ItemDetails = (props) => {
       }
       else {
         if (res.data.status === "success") {
-          form.setValue("name", res.data.record.name);
-          form.setValue("description", res.data.record.description);
-          form.setValue("price", res.data.record.pricePerUnit);
-          form.setValue("quantity", res.data.record.quantity);
+          form.setValue("name", res.data.inventory.name);
+          form.setValue("description", res.data.inventory.description);
+          form.setValue("price", res.data.inventory.price);
+          form.setValue("quantity", res.data.inventory.quantity);
         }
         else {
           props.showalert(res.data.msg, "danger");
@@ -53,7 +53,7 @@ const ItemDetails = (props) => {
       if (res.data.status === "success") {
         props.showalert("Item updated successfully", "success");
         reset();
-        history.push("/inventory");
+        navigate("/inventory");
       }
       else {
         props.showalert(res.data.msg, "danger");
