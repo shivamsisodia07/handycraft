@@ -5,4 +5,11 @@
     .carousel-img{
         height: 50vh;
     }
+
+}
+.carousel-control-prev:hover{
+    background-color: transparent;
+}
+.carousel-control-next:hover{
+    background-color: transparent;
 }

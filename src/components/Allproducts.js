@@ -56,7 +56,7 @@ export default function Allproducts(props) {
             <option value="ratings-descending">Ratings Descending</option>
           </select>
         </div> */}
-        <div className="card mt-4">
+        <div className="card mt-4 flex-row">
           {products && products.map((product) => (
             <ProductCard
               key={product.id}

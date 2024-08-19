@@ -38,7 +38,7 @@ export default function ProductCard(props) {
 
   return (
     <div
-      className={` mt-4  border rounded-4 shadow-lg d-flex flex-column hover-shadow box prodct ${
+      className={` mt-4 mx-2 border rounded-4 shadow-lg d-flex flex-column hover-shadow box prodct ${
         isVisible ? "active" : ""
       } `}
       ref={elementRef}

@@ -15,7 +15,7 @@ export default function Carousel() {
         id="carouselExampleControls"
         className="carousel slide"
         data-bs-ride="carousel"
-        data-bs-interval="5000"
+        data-bs-interval="3000"
       >
         <div className="carousel-inner">
           <div className="carousel-item active">

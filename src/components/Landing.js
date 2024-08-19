@@ -35,7 +35,7 @@ const Landing = (props) => {
 
           </section>
         </div>
-        <Allproducts />
+        <Allproducts showalert={props.showalert}/>
         <br></br>
         <div className={`${styles.paddingX} ${styles.flexCenter}`}>
           <div className={`${styles.boxWidth}`}>

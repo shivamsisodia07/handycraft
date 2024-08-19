@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import TokenService from "../services/token-service";
 import { useNavigate } from "react-router-dom";
@@ -6,16 +6,8 @@ import '../assets/css/product.css';
 
 
 const CartProducts = (props) => {
-    let navigate = useNavigate();
-    if (!TokenService.hasAuthToken()) {
-        navigate("/login");
-        return;
-    }
-    else if (TokenService.getRole() != "consumer") {
-        props.showalert("You are not authorized to access this page", "danger");
-        navigate("/");
-        return;
-    }
+    const navigate = useNavigate();
+   
 
     const [showModal, setShowModal] = useState(false);
 
@@ -35,9 +27,21 @@ const CartProducts = (props) => {
     function handleQuantityChange(type) {
         props.onChange(props.id, type)
     }
+    useEffect(()=>{
+        if (!TokenService.hasAuthToken()) {
+            navigate("/login");
+            return;
+        }
+        else if (TokenService.getRole() != "consumer") {
+            props.showalert("You are not authorized to access this page", "danger");
+            navigate("/");
+            return;
+        }
+    },[])
 
     return (
         <>
+        {(TokenService.hasAuthToken() &&TokenService.getRole() == "consumer") ? (<>
             <div className="m-4 d-flex align-items-center border border-opacity-25 rounded-4 border-white pe-2">
                 <div className="bg-white align-items-center justify-content-center d-flex rounded-4" style={{ height: "200px", width: "200px", outline: "solid" }}>
                     <img className="d-block  object-fit-contain rounded-4"  src={"http://localhost:5000/static/uploads/products/" + props.item.imgFile} alt="not loading" style={{ height: "100%", width: "100%" }} />
@@ -77,6 +81,9 @@ const CartProducts = (props) => {
                     </Button>
                 </Modal.Footer>
             </Modal>
+            </>):
+            (<></>)
+        }
         </>
     );
 }
