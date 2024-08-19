@@ -7,17 +7,18 @@ import { useNavigate } from "react-router-dom";
 
 const Inventory = (props) => {
   const [inventory, setInventory] = useState(null);
-  let navigate = useNavigate();
-  if(!TokenService.hasAuthToken()){
-    navigate("/login");
-    return;
-  }
-  else if (TokenService.getRole() != "crafter") {
-    props.showalert("You are not authorized to access this page", "danger");
-    navigate("/");
-    return;
-  }
+  const navigate = useNavigate();
+ 
   useEffect(() => {
+    if(!TokenService.hasAuthToken()){
+      navigate("/login");
+      return;
+    }
+    else if (TokenService.getRole() != "crafter") {
+      props.showalert("You are not authorized to access this page", "danger");
+      navigate("/");
+      return;
+    }
     (async () => {
       const res = await getInventory();
       if (res.error) {
@@ -32,6 +33,7 @@ const Inventory = (props) => {
   },[]);
   return (
     <>
+    {(TokenService.hasAuthToken() && TokenService.getRole() == "crafter" )?(<>
       <div className="flex-1 flex justify-center items-center flex-row m-6">
         <section class="inventoryTable flex-row flex-wrap sm:mb-20 mb-6 ">
           <table class="inventoryTable">
@@ -82,6 +84,7 @@ const Inventory = (props) => {
           </table>
         </section>
       </div>
+      </>):(<></>)}
     </>
   );
 

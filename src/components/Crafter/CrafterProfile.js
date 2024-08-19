@@ -11,17 +11,9 @@ import { useNavigate } from "react-router-dom";
 
 const CrafterProfile = (props) => {
 
-  var navigate = useNavigate();
+  const navigate = useNavigate();
   const [load, setLoading] = useState(false);
-   if (!TokenService.hasAuthToken()) {
-    navigate("/login");
-    return;
-  }
-  if (TokenService.getRole() != "crafter") {
-    props.showalert("You are not authorized to access this page", "danger");
-    navigate("/");
-    return;
-  }
+ 
  
   let form = useForm({ onblur: true });
   const { register, handleSubmit, formState: { errors }, reset } = form;
@@ -49,6 +41,15 @@ const CrafterProfile = (props) => {
 
 
   useEffect(() => {
+    if (!TokenService.hasAuthToken()) {
+      navigate("/login");
+      return;
+    }
+    else if (TokenService.getRole() != "crafter") {
+      props.showalert("You are not authorized to access this page", "danger");
+      navigate("/");
+      return;
+    }
     (async () => {
       const res = await getCrafter();
       if (res.error) {
@@ -85,6 +86,7 @@ const CrafterProfile = (props) => {
 
     return (
       <>
+       {(TokenService.hasAuthToken() && TokenService.getRole() == "crafter" )?(<>
         <div className="Fast">
           <div className="Register">
             <section id="signUpPage">
@@ -164,6 +166,7 @@ const CrafterProfile = (props) => {
             </section>
           </div>
         </div>
+        </>):(<></>)}
       </>
     );
   }

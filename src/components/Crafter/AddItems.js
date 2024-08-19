@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import TokenService from "../../services/token-service";
 import InventorySchema from "../../utils/validations/InventorySchema";
 import { useForm } from "react-hook-form";
@@ -8,17 +8,19 @@ import { addItem } from "../../utils/inventory-apis/inventory";
 
 
 function AddItems(props) {
-  let navigate = useNavigate();
-  if (!TokenService.hasAuthToken()) {
-    navigate("/login");
-    return;
-  }
-  else if (TokenService.getRole() != "crafter") {
-    props.showalert("You are not authorized to access this page", "danger");
-   navigate("/");
-    return;
-  }
- 
+
+  const navigate = useNavigate();
+  useEffect(()=>{
+    if (!TokenService.hasAuthToken()) {
+      navigate("/login");
+      return;
+    }
+    else if (TokenService.getRole() != "crafter") {
+      props.showalert("You are not authorized to access this page", "danger");
+     navigate("/");
+      return;
+    }
+  },[])
   const { register, handleSubmit, formState: { errors }, reset } = useForm({ onblur: true });
   const addRequest = async (data) => {
 
@@ -48,6 +50,7 @@ function AddItems(props) {
 
   return (
     <>
+     {(TokenService.hasAuthToken() && TokenService.getRole() == "crafter" )?(<>
       <div className="AddParent">
         <div className="AddItems">
           <section id="AddItemsPage">
@@ -125,6 +128,7 @@ function AddItems(props) {
           </section>
         </div>
       </div>
+      </>):(<></>)}
     </>
   );
 

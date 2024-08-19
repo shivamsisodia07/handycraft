@@ -8,19 +8,20 @@ import { useNavigate } from "react-router-dom";
 
 const ConsumerProfile = (props) => {
   const [load, setLoading] = useState(false);
-  let navigate = useNavigate();
-  if (!TokenService.hasAuthToken()) {
-    navigate("/login");
-    return;
-  }
-  else if (TokenService.getRole() != "consumer") {
-    props.showalert("You are not authorized to access this page", "danger");
-    navigate("/");
-    return;
-  }
+  const navigate = useNavigate();
+ 
   let form = useForm({ onblur: true });
   const { register, handleSubmit, formState: { errors }, reset } = form;
   useEffect(() => {
+    if (!TokenService.hasAuthToken()) {
+      navigate("/login");
+      return;
+    }
+    else if (TokenService.getRole() != "consumer") {
+      props.showalert("You are not authorized to access this page", "danger");
+      navigate("/");
+      return;
+    }
     (async () => {
       const res = await getConsumer();
       console.log(res);
@@ -68,6 +69,7 @@ const ConsumerProfile = (props) => {
 
     return (
       <>
+      {(TokenService.hasAuthToken() && TokenService.getRole() == "consumer" )?(<>
         <div className="Fast">
           <div className="Register">
             <section id="signUpPage">
@@ -132,6 +134,7 @@ const ConsumerProfile = (props) => {
             </section>
           </div>
         </div>
+        </>):(<></>)}
       </>
     );
   }

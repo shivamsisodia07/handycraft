@@ -5,20 +5,21 @@ import { useForm } from "react-hook-form";
 import { getItem, editItem } from "../../utils/inventory-apis/inventory";
 import { useNavigate } from "react-router-dom";
 const ItemDetails = (props) => {
-  let navigate = useNavigate();
-  if (!TokenService.hasAuthToken()) {
-    navigate("/login");
-    return;
-  }
-  else if (TokenService.getRole() != "crafter") {
-    props.showalert("You are not authorized to access this page", "danger");
-    navigate("/");
-    return;
-  }
+  const navigate = useNavigate();
+ 
 
   let form = useForm({ onblur: true });
   const { register, handleSubmit, formState: { errors }, reset } = form;
   useEffect(() => {
+    if (!TokenService.hasAuthToken()) {
+      navigate("/login");
+      return;
+    }
+    else if (TokenService.getRole() != "crafter") {
+      props.showalert("You are not authorized to access this page", "danger");
+      navigate("/");
+      return;
+    }
     (async () => {
       const itemId = window.location.href.split("/")[4];
       const res = await getItem(itemId);
@@ -64,6 +65,7 @@ const ItemDetails = (props) => {
 
   return (
     <>
+     {(TokenService.hasAuthToken() && TokenService.getRole() == "crafter" )?(<>
       <div className="UpdateItems">
         <section id="UpdateItemsPage">
           <li>
@@ -120,6 +122,7 @@ const ItemDetails = (props) => {
 
         </section>
       </div>
+      </>):(<></>)}
     </>
   );
 
