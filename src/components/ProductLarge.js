@@ -54,37 +54,28 @@ const ProductLarge = (props) => {
                             >
                                 {state.name}
                             </h2>
-
-                            <h2 className="mx-5 mt-1 d-flex text-white align-items-center">
-                                MRP:
-                                ${state.price}
+                            <h5 className="mx-5 my-3 fs-5 text-start">{state.description}</h5>
+                            <h2 className="mx-5 mt-1 text-white text-start">
+                               
+                            ₹{state.price}
 
                             </h2>
-                            <p className="ms-5 my-3 bg-success text-white rounded-5 px-3 d-inline fs-4 align-items-center">
-                                5
-                                <i className="ms-1 bi bi-star-fill fs-5"></i>
-                            </p>
-                            <p className="text-muted d-inline ms-2">
-                                240 reviews
-                            </p>
-                            <br />
-                            <p className="ms-5 my-3 bg-body-tertiary text-secondary rounded-5 px-3 fs-6 align-items-center d-inline">
-                                Free Delivery
-                            </p>
-                            <p className="mx-5 my-3 fs-5">{state.description}</p>
-                            <div className="mx-5 d-flex mt-5 justify-content-evenly">
+                           
+                            <div className="mx-5 d-flex mt-5 flex-row justify-content-between col-3">
                                 {console.log(listofAddedProducts, state)}
                                 {((listofAddedProducts.length > 0) && (listofAddedProducts.find((item) => item.product.id === state.id))) ? (
-                                    <CartCounter
-                                        state={state}
-                                        listOfAddedProduct={listofAddedProducts}
-                                        
-                                    />
+                                    listofAddedProducts.map((item) => {
+                                        if (item.product.id === state.id)
+                                            return <CartCounter
+                                             state={state}
+                                             item={item}  
+                                            />
+                                                
+                                    })
                                 ) : (
                                     <div
-                                        className={`btn btn-outline-primary btn-lg`}
+                                        className="btn btn-outline-primary btn-lg col-12"
                                         id="addtocartbtn"
-                                        style={{ width: "45%" }}
                                         onClick={() => handleAddToCart()}
                                     >
                                         Add to cart
@@ -92,6 +83,19 @@ const ProductLarge = (props) => {
                                 )}
 
 
+                            </div>
+                            <div className="d-flex flex-row justify-content-between col-8 mx-5 my-3">
+                            <p className="my-3 bg-success rounded-5 p-2 fs-6 text-center text-white">
+                                5
+                                <i className="ms-1 bi bi-star-fill fs-6"></i>
+                            </p>
+                            <p className="my-3 bg-success rounded-5 p-2 fs-6 text-center text-white">
+                                240 reviews
+                            </p>
+                         
+                            <p className="my-3 rounded-5 p-2 fs-6 text-center bg-success ">
+                                Free Delivery
+                            </p>
                             </div>
                         </div>
                     </div>
