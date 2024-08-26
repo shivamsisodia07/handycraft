@@ -78,6 +78,7 @@ const ProductLarge = (props) => {
                                     <CartCounter
                                         state={state}
                                         listOfAddedProduct={listofAddedProducts}
+                                        
                                     />
                                 ) : (
                                     <div

@@ -18,10 +18,10 @@ const reducer = (state = initialstate, action) => {
             console.log("reducer update call", action.payload);
             newState.forEach((item) => {
                 if (item.product.id === action.payload.productId) {
-                    if (action.payload.type === "inc") {
+                    if (action.payload.type === "increase") {
                         item.quantity += 1;
                     }
-                    else if (action.payload.type === "dec" && item.quantity > 1) {
+                    else if (action.payload.type === "decrease" && item.quantity > 1) {
                         console.log("bekbcek");
                         item.quantity -= 1;
                     }

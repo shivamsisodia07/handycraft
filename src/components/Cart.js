@@ -61,7 +61,7 @@ const Cart = (props) => {
                         <div>
                             {cartItems.map((item, idx) => {
                                 return (
-                                    <CartProducts item={item.product} onChange={changeQuantity} quantity={item.quantity} onRemove={remove} key={idx} />
+                                    <CartProducts item={item.product} onChange={changeQuantity} quantity={item.quantity} onRemove={remove} key={idx}  />
                                 )
                             })}
                         </div>
